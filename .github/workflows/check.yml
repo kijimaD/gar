@@ -99,7 +99,7 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           target: release
           push: true
-          tags: ghcr.io/kijimad/go_skel:${{ steps.git-tag.outputs.git-tag }},ghcr.io/kijimad/go_skel:latest
+          tags: ghcr.io/kijimad/gar:${{ steps.git-tag.outputs.git-tag }},ghcr.io/kijimad/gar:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
 

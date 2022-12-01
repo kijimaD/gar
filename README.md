@@ -1,3 +1,3 @@
-# go_skel
+# gar
 
 Go template repository.

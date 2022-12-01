@@ -1,3 +1,3 @@
-module go_skel
+module gar
 
 go 1.19
