@@ -8,6 +8,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
+	github "github.com/google/go-github/v48/github"
 )
 
 // MockclientI is a mock of clientI interface.
@@ -34,9 +35,11 @@ func (m *MockclientI) EXPECT() *MockclientIMockRecorder {
 }
 
 // PRDetail mocks base method.
-func (m *MockclientI) PRDetail() {
+func (m *MockclientI) PRDetail() *github.PullRequest {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "PRDetail")
+	ret := m.ctrl.Call(m, "PRDetail")
+	ret0, _ := ret[0].(*github.PullRequest)
+	return ret0
 }
 
 // PRDetail indicates an expected call of PRDetail.

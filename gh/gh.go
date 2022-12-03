@@ -13,7 +13,7 @@ import (
 
 type clientI interface {
 	Reply()
-	PRDetail()
+	PRDetail() *github.PullRequest
 }
 
 type Gh struct {
@@ -45,21 +45,20 @@ func (gh *Gh) Reply() {
 	}
 }
 
-func (gh *Gh) PRDetail() {
+func (gh *Gh) PRDetail() *github.PullRequest {
 	ctx := context.Background()
-	_, _, err := gh.Client.PullRequests.Get(ctx, "kijimaD", "gar", 1)
+	pr, _, err := gh.Client.PullRequests.Get(ctx, "kijimaD", "gar", 1)
 
 	if err != nil {
 		panic(err)
 	}
-}
 
-type CallClient struct {
-	API clientI
-}
+	fmt.Println("pr================")
+	fmt.Printf("%v\n", pr)
+	fmt.Println("head================")
+	fmt.Printf("%v\n", *pr.Head.Ref) // PRのブランチ
+	fmt.Println("commits================")
+	fmt.Printf("%v\n", *pr.Base.Ref) // PRのベースブランチ
 
-func (sync *CallClient) process() {
-	sync.API.PRDetail()
-	fmt.Println("execute!")
-
+	return pr
 }
