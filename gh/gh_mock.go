@@ -33,14 +33,26 @@ func (m *MockclientI) EXPECT() *MockclientIMockRecorder {
 	return m.recorder
 }
 
-// List mocks base method.
-func (m *MockclientI) List() {
+// PRDetail mocks base method.
+func (m *MockclientI) PRDetail() {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "List")
+	m.ctrl.Call(m, "PRDetail")
 }
 
-// List indicates an expected call of List.
-func (mr *MockclientIMockRecorder) List() *gomock.Call {
+// PRDetail indicates an expected call of PRDetail.
+func (mr *MockclientIMockRecorder) PRDetail() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockclientI)(nil).List))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PRDetail", reflect.TypeOf((*MockclientI)(nil).PRDetail))
+}
+
+// Reply mocks base method.
+func (m *MockclientI) Reply() {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Reply")
+}
+
+// Reply indicates an expected call of Reply.
+func (mr *MockclientIMockRecorder) Reply() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Reply", reflect.TypeOf((*MockclientI)(nil).Reply))
 }

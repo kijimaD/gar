@@ -1,23 +1,14 @@
 //go:build gh
 
+// 実際にGitHubにアクセスするテスト
+
 package gh
 
 import (
 	"testing"
 )
 
-// 実際にGitHubにアクセスするテスト
-
-func TestListReal(t *testing.T) {
-	gh, err := New()
-
-	if err != nil {
-		t.Error(err)
-	}
-
-	gh.List()
-}
-
+// レビューコメントに返信する
 func TestReplyReal(t *testing.T) {
 	gh, err := New()
 
@@ -26,4 +17,15 @@ func TestReplyReal(t *testing.T) {
 	}
 
 	gh.Reply()
+}
+
+// PRの詳細情報を取得する
+func TestPRDetailReal(t *testing.T) {
+	gh, err := New()
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	gh.PRDetail()
 }

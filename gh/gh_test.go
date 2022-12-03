@@ -9,10 +9,10 @@ import (
 func TestList(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
-	cl.EXPECT().List().AnyTimes().Return()
+	cl.EXPECT().PRDetail().AnyTimes().Return()
 
 	s := &CallClient{
 		API: cl,
 	}
-	s.run()
+	s.process()
 }
