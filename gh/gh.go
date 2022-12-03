@@ -46,6 +46,15 @@ func (gh *Gh) List() {
 	}
 }
 
+func (gh *Gh) Reply() {
+	ctx := context.Background()
+	_, _, err := gh.Client.PullRequests.CreateCommentInReplyTo(ctx, "kijimaD", "gar", 1, "this is test by API", 1037682054)
+
+	if err != nil {
+		panic(err)
+	}
+}
+
 type CallClient struct {
 	API clientI
 }

@@ -2,7 +2,9 @@
 
 package gh
 
-import "testing"
+import (
+	"testing"
+)
 
 // 実際にGitHubにアクセスするテスト
 
@@ -10,8 +12,18 @@ func TestListReal(t *testing.T) {
 	gh, err := New()
 
 	if err != nil {
-		t.Errorf("%s", err)
+		t.Error(err)
 	}
 
 	gh.List()
+}
+
+func TestReplyReal(t *testing.T) {
+	gh, err := New()
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	gh.Reply()
 }

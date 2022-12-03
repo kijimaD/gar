@@ -25,7 +25,7 @@ gen: ## go generateを実行する
 	go generate ./...
 
 test: ## テストを実行する
-	go test -race -shuffle=on ./...
+	go test ./... -v -race -shuffle=on
 
 testGH: ## GitHubへのアクセスが発生するテストを実行する
 	go test ./... -v -tags gh
