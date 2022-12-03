@@ -1,3 +1,5 @@
+//go:generate mockgen -source=gh.go -destination=gh_mock.go -package=gh
+
 package gh
 
 import (
@@ -9,8 +11,12 @@ import (
 	"golang.org/x/oauth2"
 )
 
+type clientI interface {
+	List()
+}
+
 type Gh struct {
-	client *github.Client
+	Client *github.Client
 }
 
 func New() (*Gh, error) {
@@ -25,31 +31,26 @@ func New() (*Gh, error) {
 	client := github.NewClient(tc)
 
 	return &Gh{
-		client: client,
+		Client: client,
 	}, nil
 }
 
-func (g *Gh) Client() *github.Client {
-	return g.client
-}
-
-func (g *Gh) SetClient(client *github.Client) {
-	g.client = client
-}
-
-func Main() {
-	gh, err := New()
-
-	if err != nil {
-		panic(err)
-	}
-
+func (gh *Gh) List() {
 	ctx := context.Background()
-	repos, _, err := gh.Client().Repositories.List(ctx, "kijimad", nil)
+	repos, _, err := gh.Client.Repositories.List(ctx, "kijimad", nil)
 
 	fmt.Printf("%#v", repos)
 
 	if err != nil {
 		panic(err)
 	}
+}
+
+type CallClient struct {
+	API clientI
+}
+
+func (sync *CallClient) run() {
+	fmt.Println("run")
+	sync.API.List()
 }

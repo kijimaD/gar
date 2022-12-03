@@ -21,9 +21,16 @@ logs: ## Tail docker compose logs
 ps: ## Check container status
 	docker-compose ps
 
+gen: ## go generateを実行する
+	go generate ./...
+
 test: ## テストを実行する
 	go test -race -shuffle=on ./...
 
+testGH: ## GitHubへのアクセスが発生するテストを実行する
+	go test ./... -v -tags gh
+
 help: ## ヘルプを表示する
+	@echo -e "──────● █▀▀ ▄▀█ █▀█ ●──────\n        █▄█ █▀█ █▀▄        "
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
