@@ -29,3 +29,13 @@ func TestPRDetailReal(t *testing.T) {
 
 	gh.PRDetail()
 }
+
+func TestPRCommitsReal(t *testing.T) {
+	gh, err := New()
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	gh.PRCommits()
+}

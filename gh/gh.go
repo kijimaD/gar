@@ -4,7 +4,6 @@ package gh
 
 import (
 	"context"
-	"fmt"
 	"os"
 
 	"github.com/google/go-github/v48/github"
@@ -14,6 +13,7 @@ import (
 type clientI interface {
 	Reply()
 	PRDetail() *github.PullRequest
+	PRCommits() []*github.RepositoryCommit
 }
 
 type Gh struct {
@@ -53,12 +53,28 @@ func (gh *Gh) PRDetail() *github.PullRequest {
 		panic(err)
 	}
 
-	fmt.Println("pr================")
-	fmt.Printf("%v\n", pr)
-	fmt.Println("head================")
-	fmt.Printf("%v\n", *pr.Head.Ref) // PRのブランチ
-	fmt.Println("commits================")
-	fmt.Printf("%v\n", *pr.Base.Ref) // PRのベースブランチ
+	// fmt.Println("pr================")
+	// fmt.Printf("%v\n", pr)
+	// fmt.Println("head================")
+	// fmt.Printf("%v\n", *pr.Head.Ref) // PRのブランチ
+	// fmt.Println("commits================")
+	// fmt.Printf("%v\n", *pr.Base.Ref) // PRのベースブランチ
 
 	return pr
+}
+
+func (gh *Gh) PRCommits() []*github.RepositoryCommit {
+	ctx := context.Background()
+	commits, _, err := gh.Client.PullRequests.ListCommits(ctx, "kijimaD", "gar", 1, nil)
+
+	if err != nil {
+		panic(err)
+	}
+
+	// for _, c := range commits {
+	// 	fmt.Printf("%v\n", c)
+	// 	fmt.Printf("%v\n", *c.Commit.Message)
+	// }
+
+	return commits
 }

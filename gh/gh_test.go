@@ -32,3 +32,26 @@ func TestPRGitHashs(t *testing.T) {
 	}
 	s.PRGitHashs()
 }
+
+func TestPRCommits(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	cl := NewMockclientI(ctrl)
+
+	message := "this is commit message"
+	commit := github.Commit{
+		Message: &message,
+	}
+	rc := github.RepositoryCommit{
+		Commit: &commit,
+	}
+
+	cl.EXPECT().PRCommits().AnyTimes().Return(
+		[]*github.RepositoryCommit{
+			&rc,
+		})
+
+	s := &CallClient{
+		API: cl,
+	}
+	s.PRCommits()
+}
