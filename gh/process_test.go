@@ -1,13 +1,14 @@
 package gh
 
 import (
+	"fmt"
 	"testing"
 
 	gomock "github.com/golang/mock/gomock"
 	"github.com/google/go-github/v48/github"
 )
 
-func TestPRGitHashs(t *testing.T) {
+func TestshowHash(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
 
@@ -30,10 +31,10 @@ func TestPRGitHashs(t *testing.T) {
 	s := &CallClient{
 		API: cl,
 	}
-	s.PRGitHashs()
+	s.showHash()
 }
 
-func TestPRCommits(t *testing.T) {
+func TestParseCommitMessage(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
 
@@ -53,5 +54,11 @@ func TestPRCommits(t *testing.T) {
 	s := &CallClient{
 		API: cl,
 	}
-	s.PRCommits()
+	commits := s.API.PRCommits()
+	replys := s.ParseCommitMessage(commits)
+
+	// コミットメッセージをパースできてることを確認する
+	// 返り値の[]Replyが正しいかどうか?
+	fmt.Println(replys)
+
 }
