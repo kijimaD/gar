@@ -78,12 +78,46 @@ func TestParseMsg(t *testing.T) {
 
 	expect := int64(1037682054)
 
-	result, err := s.parseMsg(`feat: this is test
+	t.Run("パースできる", func(t *testing.T) {
+		msg := `feat: this is test
 
-https://github.com/kijimaD/gar/pull/1#discussion_r1037682054`)
-	if err != nil {
-		t.Error(err)
-	}
+https://github.com/kijimaD/gar/pull/1#discussion_r1037682054`
 
-	assert.Equal(t, expect, result)
+		result, err := s.parseMsg(msg)
+		if err != nil {
+			t.Error(err)
+		}
+
+		assert.Equal(t, expect, result)
+	})
+
+	t.Run("PRが異なる場合マッチしない", func(t *testing.T) {
+		msg := `feat: this is test
+
+https://github.com/kijimaD/gar/pull/2#discussion_r1037682054`
+
+		result, err := s.parseMsg(msg)
+
+		if err != nil {
+			t.Error(err)
+		}
+
+		if result != -1 {
+			t.Error(err)
+		}
+	})
+
+	t.Run("含まれない場合マッチしない", func(t *testing.T) {
+		msg := `feat: this is test`
+
+		result, err := s.parseMsg(msg)
+
+		if err != nil {
+			t.Error(err)
+		}
+
+		if result != -1 {
+			t.Error(err)
+		}
+	})
 }

@@ -2,7 +2,6 @@ package gh
 
 import (
 	"fmt"
-	"log"
 	"regexp"
 	"strconv"
 
@@ -36,7 +35,15 @@ func (c *CallClient) ParseCommit() {
 	var replys []Reply
 
 	for _, commit := range c.Commits {
-		id, _ := c.parseMsg(*commit.Commit.Message)
+		id, err := c.parseMsg(*commit.Commit.Message)
+
+		if err != nil {
+			panic(err)
+		}
+
+		if id == -1 {
+			continue
+		}
 
 		reply := Reply{
 			ReplyID: id,
@@ -54,9 +61,13 @@ func (c *CallClient) parseMsg(s string) (int64, error) {
 
 	result := r.FindAllStringSubmatch(s, -1)
 
+	if len(result) == 0 {
+		return -1, nil
+	}
+
 	int64, err := strconv.ParseInt(result[0][1], 10, 64)
 	if err != nil {
-		log.Println("can't parse")
+		return -1, err
 	}
 	return int64, nil
 }
