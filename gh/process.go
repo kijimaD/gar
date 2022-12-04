@@ -15,6 +15,13 @@ type CallClient struct {
 	Replys  []Reply
 }
 
+func NewClient(api clientI, pr PR) *CallClient {
+	return &CallClient{
+		API: api,
+		PR:  pr,
+	}
+}
+
 func (c *CallClient) showHash() {
 	pr := c.API.PRDetail()
 	curBranch := *pr.Head.Ref
@@ -57,7 +64,11 @@ func (c *CallClient) ParseCommit() {
 }
 
 func (c *CallClient) parseMsg(s string) (int64, error) {
-	r := regexp.MustCompile(`https://github.com/kijimaD/gar/pull/1#discussion_r(\d+)`)
+	user := c.PR.User
+	repo := c.PR.Repo
+	num := c.PR.Number
+	regex := fmt.Sprintf(`https://github.com/%s/%s/pull/%d#discussion_r(\d+)`, user, repo, num)
+	r := regexp.MustCompile(regex)
 
 	result := r.FindAllStringSubmatch(s, -1)
 

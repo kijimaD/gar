@@ -28,9 +28,7 @@ func TestShowHash(t *testing.T) {
 		Base:   &base,
 	})
 
-	s := &CallClient{
-		API: cl,
-	}
+	s := NewClient(cl, PR{})
 	s.showHash()
 }
 
@@ -61,10 +59,13 @@ https://github.com/kijimaD/gar/pull/1#discussion_r1037682054`
 	}
 
 	commits := []*github.RepositoryCommit{&rc0, &rc1}
-	s := &CallClient{
-		API:     cl,
-		Commits: commits,
+	pr := PR{
+		User:   "kijimaD",
+		Repo:   "gar",
+		Number: 1,
 	}
+	s := NewClient(cl, pr)
+	s.Commits = commits
 
 	s.ParseCommit()
 
@@ -83,9 +84,13 @@ func TestParseMsg(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
 
-	s := &CallClient{
-		API: cl,
+	pr := PR{
+		User:   "kijimaD",
+		Repo:   "gar",
+		Number: 1,
 	}
+
+	s := NewClient(cl, pr)
 
 	expect := int64(1037682054)
 

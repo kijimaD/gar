@@ -1,3 +1,5 @@
+//go:build gh
+
 package main
 
 import (
@@ -12,9 +14,7 @@ func TestMain(t *testing.T) {
 		panic(err)
 	}
 
-	c := gh.CallClient{
-		API: g,
-	}
+	c := gh.NewClient(g, g.PR)
 	c.GetCommits()
 	c.ParseCommit()
 	c.SendReply()

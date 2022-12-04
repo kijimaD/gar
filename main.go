@@ -20,9 +20,7 @@ func main() {
 		panic(err)
 	}
 
-	c := gh.CallClient{
-		API: g,
-	}
+	c := gh.NewClient(g, g.PR)
 	c.GetCommits()
 	c.ParseCommit()
 	c.SendReply()
