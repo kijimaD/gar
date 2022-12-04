@@ -54,14 +54,14 @@ func New(PRnumber int) (*Gh, error) {
 
 func getGitInfo() (*PR, error) {
 	out, err := exec.Command("git", "config", "--get", "remote.origin.url").Output()
+	if err != nil {
+		return &PR{}, fmt.Errorf("%s", err)
+	}
+
 	raw := string(out)
 
 	r := regexp.MustCompile(`git@github.com:(\S+)/(\S+).git`)
 	result := r.FindAllStringSubmatch(raw, -1)
-
-	if err != nil {
-		return &PR{}, fmt.Errorf("%s", err)
-	}
 
 	if len(result) == 0 {
 		return &PR{}, fmt.Errorf("%s", err)

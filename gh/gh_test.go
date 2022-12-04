@@ -24,7 +24,11 @@ func TestGetGitInfo(t *testing.T) {
 	t.Run("git管理下でないとエラーになる", func(t *testing.T) {
 		expect := &PR{}
 
-		err := os.Chdir("/")
+		curPath, err := os.Getwd()
+		if err != nil {
+			t.Error(err)
+		}
+		err = os.Chdir("/")
 		if err != nil {
 			t.Error(err)
 		}
@@ -35,5 +39,10 @@ func TestGetGitInfo(t *testing.T) {
 			t.Error(err)
 		}
 		assert.Equal(t, expect, result)
+
+		err = os.Chdir(curPath)
+		if err != nil {
+			t.Error(err)
+		}
 	})
 }
