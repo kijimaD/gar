@@ -2,6 +2,8 @@ package gh
 
 import (
 	"fmt"
+	"log"
+	"strconv"
 
 	"github.com/google/go-github/v48/github"
 )
@@ -30,16 +32,28 @@ func (c *CallClient) GetCommits() {
 }
 
 func (c *CallClient) ParseCommit() {
-	c.Replys = []Reply{
-		{
-			ReplyID: 1,
-			GitHash: "a3d",
-		},
+	var replys []Reply
+
+	for _, commit := range c.Commits {
+		id := c.parseMsg(*commit.Commit.Message)
+
+		reply := Reply{
+			ReplyID: id,
+			GitHash: *commit.SHA,
+		}
+
+		replys = append(replys, reply)
 	}
+
+	c.Replys = replys
 }
 
-func (c *CallClient) ParseMsg(string) string {
-	return "1037682054"
+func (c *CallClient) parseMsg(string) int64 {
+	result, err := strconv.ParseInt("1037682054", 10, 64)
+	if err != nil {
+		log.Println("can't parse")
+	}
+	return result
 }
 
 func (c *CallClient) SendReply() {

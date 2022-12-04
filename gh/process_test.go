@@ -38,12 +38,16 @@ func TestParseCommit(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
 
-	message := "this is commit message"
+	message := `this is commit message
+https://github.com/kijimaD/gar/pull/1#discussion_r1037682054
+`
+	sha := "369a79d9028e378b2f4ad3e566df061583656617"
 	commit := github.Commit{
 		Message: &message,
 	}
 	rc := github.RepositoryCommit{
 		Commit: &commit,
+		SHA:    &sha,
 	}
 	commits := []*github.RepositoryCommit{&rc}
 	s := &CallClient{
@@ -53,16 +57,14 @@ func TestParseCommit(t *testing.T) {
 
 	s.ParseCommit()
 
-	// コミットメッセージをパースできてることを確認する
-	// 返り値の[]Replyが正しいかどうか?
-
 	expect := []Reply{
 		{
-			ReplyID: 1,
-			GitHash: "a3d",
+			ReplyID: int64(1037682054),
+			GitHash: sha,
 		},
 	}
 
+	// Replysに値がセットされている
 	assert.Equal(t, expect, s.Replys)
 }
 
@@ -74,9 +76,9 @@ func TestParseMsg(t *testing.T) {
 		API: cl,
 	}
 
-	expect := "1037682054"
+	expect := int64(1037682054)
 
-	result := s.ParseMsg(`feat: this is test
+	result := s.parseMsg(`feat: this is test
 
 https://github.com/kijimaD/gar/pull/1#discussion_r1037682054`)
 

@@ -4,7 +4,6 @@ package gh
 
 import (
 	"context"
-	"fmt"
 	"os"
 
 	"github.com/google/go-github/v48/github"
@@ -85,11 +84,11 @@ func (gh *Gh) PRCommits() []*github.RepositoryCommit {
 		panic(err)
 	}
 
-	for _, c := range commits {
-		fmt.Printf("%v\n", c)
-		fmt.Printf("%v\n", *c.Commit.Message)
-		fmt.Printf("%v\n", *c.SHA)
-	}
+	// for _, c := range commits {
+	// 	fmt.Printf("%v\n", c)
+	// 	fmt.Printf("%v\n", *c.Commit.Message)
+	// 	fmt.Printf("%v\n", *c.SHA)
+	// }
 
 	return commits
 }
