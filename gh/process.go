@@ -1,6 +1,7 @@
 package gh
 
 import (
+	"flag"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -80,7 +81,15 @@ func (c *CallClient) SendReply() {
 }
 
 func main() {
-	gh, err := New()
+	var (
+		i = flag.Int("i", -1, "PR number")
+	)
+	flag.Parse()
+	if *i == -1 {
+		panic("need PR number")
+	}
+
+	gh, err := New(*i)
 
 	if err != nil {
 		panic(err)

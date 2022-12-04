@@ -30,7 +30,7 @@ type PR struct {
 	Number int
 }
 
-func New() (*Gh, error) {
+func New(PRnumber int) (*Gh, error) {
 	token := os.Getenv("GH_TOKEN")
 
 	ctx := context.Background()
@@ -44,7 +44,7 @@ func New() (*Gh, error) {
 	if err != nil {
 		panic(err)
 	}
-	pr.Number = 1
+	pr.Number = PRnumber
 
 	return &Gh{
 		Client: client,
