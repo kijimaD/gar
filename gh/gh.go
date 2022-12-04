@@ -76,9 +76,10 @@ func getGitInfo() (*PR, error) {
 	}, nil
 }
 
-func (gh *Gh) Reply(content Reply) {
+func (gh *Gh) Reply(r Reply) {
 	ctx := context.Background()
-	_, _, err := gh.Client.PullRequests.CreateCommentInReplyTo(ctx, gh.PR.User, gh.PR.Repo, gh.PR.Number, content.GitHash, content.ReplyID)
+	msg := fmt.Sprintf("check 👉 %s", r.GitHash)
+	_, _, err := gh.Client.PullRequests.CreateCommentInReplyTo(ctx, gh.PR.User, gh.PR.Repo, gh.PR.Number, msg, r.ReplyID)
 
 	if err != nil {
 		panic(err)

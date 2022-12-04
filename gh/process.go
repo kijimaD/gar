@@ -30,8 +30,8 @@ func (c *CallClient) showHash() {
 }
 
 type Reply struct {
-	ReplyID int64  // 1037682054
-	GitHash string // 90a142
+	ReplyID int64
+	GitHash string
 }
 
 func (c *CallClient) GetCommits() {
