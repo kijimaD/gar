@@ -78,9 +78,12 @@ func TestParseMsg(t *testing.T) {
 
 	expect := int64(1037682054)
 
-	result := s.parseMsg(`feat: this is test
+	result, err := s.parseMsg(`feat: this is test
 
 https://github.com/kijimaD/gar/pull/1#discussion_r1037682054`)
+	if err != nil {
+		t.Error(err)
+	}
 
 	assert.Equal(t, expect, result)
 }

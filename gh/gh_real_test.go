@@ -16,7 +16,12 @@ func TestReplyReal(t *testing.T) {
 		t.Error(err)
 	}
 
-	gh.Reply()
+	gh.Reply(
+		Reply{
+			ReplyID: int64(1037682054),
+			GitHash: "111111",
+		},
+	)
 }
 
 // PRの詳細情報を取得する

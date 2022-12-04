@@ -3,6 +3,7 @@ package gh
 import (
 	"fmt"
 	"log"
+	"regexp"
 	"strconv"
 
 	"github.com/google/go-github/v48/github"
@@ -35,7 +36,7 @@ func (c *CallClient) ParseCommit() {
 	var replys []Reply
 
 	for _, commit := range c.Commits {
-		id := c.parseMsg(*commit.Commit.Message)
+		id, _ := c.parseMsg(*commit.Commit.Message)
 
 		reply := Reply{
 			ReplyID: id,
@@ -48,12 +49,16 @@ func (c *CallClient) ParseCommit() {
 	c.Replys = replys
 }
 
-func (c *CallClient) parseMsg(string) int64 {
-	result, err := strconv.ParseInt("1037682054", 10, 64)
+func (c *CallClient) parseMsg(s string) (int64, error) {
+	r := regexp.MustCompile(`https://github.com/kijimaD/gar/pull/1#discussion_r(\d+)`)
+
+	result := r.FindAllStringSubmatch(s, -1)
+
+	int64, err := strconv.ParseInt(result[0][1], 10, 64)
 	if err != nil {
 		log.Println("can't parse")
 	}
-	return result
+	return int64, nil
 }
 
 func (c *CallClient) SendReply() {
