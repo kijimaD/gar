@@ -1,9 +1,29 @@
 package main
 
 import (
-	"fmt"
+	"flag"
+	"gar/gh"
 )
 
 func main() {
-	fmt.Println("Hello world")
+	var (
+		n = flag.Int("n", -1, "PR number")
+	)
+	flag.Parse()
+	if *n == -1 {
+		panic("need PR number")
+	}
+
+	g, err := gh.New(*n)
+
+	if err != nil {
+		panic(err)
+	}
+
+	c := gh.CallClient{
+		API: g,
+	}
+	c.GetCommits()
+	c.ParseCommit()
+	c.SendReply()
 }

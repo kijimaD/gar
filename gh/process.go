@@ -1,7 +1,6 @@
 package gh
 
 import (
-	"flag"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -74,31 +73,10 @@ func (c *CallClient) parseMsg(s string) (int64, error) {
 }
 
 func (c *CallClient) SendReply() {
-	c.API.Reply(Reply{
-		ReplyID: 1,
-		GitHash: "a3d",
-	})
-}
-
-func main() {
-	var (
-		i = flag.Int("i", -1, "PR number")
-	)
-	flag.Parse()
-	if *i == -1 {
-		panic("need PR number")
+	for _, r := range c.Replys {
+		c.API.Reply(Reply{
+			ReplyID: r.ReplyID,
+			GitHash: r.GitHash,
+		})
 	}
-
-	gh, err := New(*i)
-
-	if err != nil {
-		panic(err)
-	}
-
-	c := &CallClient{
-		API: gh,
-	}
-	c.GetCommits()
-	c.ParseCommit()
-	c.SendReply()
 }
