@@ -38,10 +38,6 @@ func TestParseCommit(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
 
-	s := &CallClient{
-		API: cl,
-	}
-
 	message := "this is commit message"
 	commit := github.Commit{
 		Message: &message,
@@ -50,19 +46,24 @@ func TestParseCommit(t *testing.T) {
 		Commit: &commit,
 	}
 	commits := []*github.RepositoryCommit{&rc}
-	replys := s.ParseCommit(commits)
+	s := &CallClient{
+		API:     cl,
+		Commits: commits,
+	}
+
+	s.ParseCommit()
 
 	// コミットメッセージをパースできてることを確認する
 	// 返り値の[]Replyが正しいかどうか?
 
 	expect := []Reply{
 		{
-			ReplyID: "1",
+			ReplyID: 1,
 			GitHash: "a3d",
 		},
 	}
 
-	assert.Equal(t, expect, replys)
+	assert.Equal(t, expect, s.Replys)
 }
 
 func TestParseMsg(t *testing.T) {

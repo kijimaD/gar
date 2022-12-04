@@ -12,7 +12,7 @@ import (
 )
 
 type clientI interface {
-	Reply()
+	Reply(Reply)
 	PRDetail() *github.PullRequest
 	PRCommits() []*github.RepositoryCommit
 }
@@ -23,9 +23,9 @@ type Gh struct {
 }
 
 type PR struct {
-	repo   string
-	user   string
-	number int
+	User   string
+	Repo   string
+	Number int
 }
 
 func New() (*Gh, error) {
@@ -38,15 +38,21 @@ func New() (*Gh, error) {
 	tc := oauth2.NewClient(ctx, ts)
 
 	client := github.NewClient(tc)
+	pr := PR{
+		User:   "kijimaD",
+		Repo:   "gar",
+		Number: 1,
+	}
 
 	return &Gh{
 		Client: client,
+		PR:     pr,
 	}, nil
 }
 
-func (gh *Gh) Reply() {
+func (gh *Gh) Reply(content Reply) {
 	ctx := context.Background()
-	_, _, err := gh.Client.PullRequests.CreateCommentInReplyTo(ctx, "kijimaD", "gar", 1, "this is test by API", 1037682054)
+	_, _, err := gh.Client.PullRequests.CreateCommentInReplyTo(ctx, gh.PR.User, gh.PR.Repo, gh.PR.Number, content.GitHash, content.ReplyID)
 
 	if err != nil {
 		panic(err)
@@ -55,7 +61,7 @@ func (gh *Gh) Reply() {
 
 func (gh *Gh) PRDetail() *github.PullRequest {
 	ctx := context.Background()
-	pr, _, err := gh.Client.PullRequests.Get(ctx, "kijimaD", "gar", 1)
+	pr, _, err := gh.Client.PullRequests.Get(ctx, gh.PR.User, gh.PR.Repo, gh.PR.Number)
 
 	if err != nil {
 		panic(err)
@@ -73,7 +79,7 @@ func (gh *Gh) PRDetail() *github.PullRequest {
 
 func (gh *Gh) PRCommits() []*github.RepositoryCommit {
 	ctx := context.Background()
-	commits, _, err := gh.Client.PullRequests.ListCommits(ctx, "kijimaD", "gar", 1, nil)
+	commits, _, err := gh.Client.PullRequests.ListCommits(ctx, gh.PR.User, gh.PR.Repo, gh.PR.Number, nil)
 
 	if err != nil {
 		panic(err)
