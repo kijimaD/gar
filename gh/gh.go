@@ -4,7 +4,10 @@ package gh
 
 import (
 	"context"
+	"fmt"
 	"os"
+	"os/exec"
+	"regexp"
 
 	"github.com/google/go-github/v48/github"
 	"golang.org/x/oauth2"
@@ -37,15 +40,39 @@ func New() (*Gh, error) {
 	tc := oauth2.NewClient(ctx, ts)
 
 	client := github.NewClient(tc)
-	pr := PR{
-		User:   "kijimaD",
-		Repo:   "gar",
-		Number: 1,
+	pr, err := getGitInfo()
+	if err != nil {
+		panic(err)
 	}
+	pr.Number = 1
 
 	return &Gh{
 		Client: client,
-		PR:     pr,
+		PR:     *pr,
+	}, nil
+}
+
+func getGitInfo() (*PR, error) {
+	out, err := exec.Command("git", "config", "--get", "remote.origin.url").Output()
+	raw := string(out)
+
+	r := regexp.MustCompile(`git@github.com:(\S+)/(\S+).git`)
+	result := r.FindAllStringSubmatch(raw, -1)
+
+	if err != nil {
+		return &PR{}, fmt.Errorf("%s", err)
+	}
+
+	if len(result) == 0 {
+		return &PR{}, fmt.Errorf("%s", err)
+	}
+
+	user := result[0][1]
+	repo := result[0][2]
+
+	return &PR{
+		User: user,
+		Repo: repo,
 	}, nil
 }
 
