@@ -38,18 +38,29 @@ func TestParseCommit(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
 
-	message := `this is commit message
-https://github.com/kijimaD/gar/pull/1#discussion_r1037682054
-`
-	sha := "369a79d9028e378b2f4ad3e566df061583656617"
-	commit := github.Commit{
-		Message: &message,
+	message0 := `this is commit message
+
+https://github.com/kijimaD/gar/pull/1#discussion_r1037682054`
+	sha0 := "369a79d9028e378b2f4ad3e566df061583656617"
+	commit0 := github.Commit{
+		Message: &message0,
 	}
-	rc := github.RepositoryCommit{
-		Commit: &commit,
-		SHA:    &sha,
+	rc0 := github.RepositoryCommit{
+		Commit: &commit0,
+		SHA:    &sha0,
 	}
-	commits := []*github.RepositoryCommit{&rc}
+
+	message1 := "not contain reply URL"
+	sha1 := "369a79d9028e378b2f4ad3e566df061583656617"
+	commit1 := github.Commit{
+		Message: &message1,
+	}
+	rc1 := github.RepositoryCommit{
+		Commit: &commit1,
+		SHA:    &sha1,
+	}
+
+	commits := []*github.RepositoryCommit{&rc0, &rc1}
 	s := &CallClient{
 		API:     cl,
 		Commits: commits,
@@ -60,7 +71,7 @@ https://github.com/kijimaD/gar/pull/1#discussion_r1037682054
 	expect := []Reply{
 		{
 			ReplyID: int64(1037682054),
-			GitHash: sha,
+			GitHash: sha0,
 		},
 	}
 
