@@ -11,7 +11,7 @@ func main() {
 	)
 	flag.Parse()
 	if *n == -1 {
-		panic("need PR number")
+		panic("error: need PR number option. -n {number}")
 	}
 
 	g, err := gh.New(*n)

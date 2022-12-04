@@ -4,6 +4,7 @@ package gh
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -11,6 +12,10 @@ import (
 
 	"github.com/google/go-github/v48/github"
 	"golang.org/x/oauth2"
+)
+
+var (
+	NotFoundGitRemoteError = errors.New("not found remote URL...")
 )
 
 type clientI interface {
@@ -55,7 +60,7 @@ func New(PRnumber int) (*Gh, error) {
 func getGitInfo() (*PR, error) {
 	out, err := exec.Command("git", "config", "--get", "remote.origin.url").Output()
 	if err != nil {
-		return &PR{}, fmt.Errorf("%s", err)
+		return &PR{}, NotFoundGitRemoteError
 	}
 
 	raw := string(out)

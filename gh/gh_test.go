@@ -38,8 +38,10 @@ func TestGetGitInfo(t *testing.T) {
 		if err == nil {
 			t.Error(err)
 		}
+		assert.Equal(t, NotFoundGitRemoteError, err)
 		assert.Equal(t, expect, result)
 
+		// 戻す
 		err = os.Chdir(curPath)
 		if err != nil {
 			t.Error(err)
