@@ -47,6 +47,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: set remote for test
+        run: git remote set-url origin git@github.com:kijimaD/gar.git
+      - name: check remote
+        run: git config --get remote.origin.url
       - name: test
         run: go test ./... -v
 
