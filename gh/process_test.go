@@ -1,11 +1,11 @@
 package gh
 
 import (
-	"fmt"
 	"testing"
 
 	gomock "github.com/golang/mock/gomock"
 	"github.com/google/go-github/v48/github"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestshowHash(t *testing.T) {
@@ -34,9 +34,13 @@ func TestshowHash(t *testing.T) {
 	s.showHash()
 }
 
-func TestParseCommitMessage(t *testing.T) {
+func TestParseCommit(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
+
+	s := &CallClient{
+		API: cl,
+	}
 
 	message := "this is commit message"
 	commit := github.Commit{
@@ -45,20 +49,35 @@ func TestParseCommitMessage(t *testing.T) {
 	rc := github.RepositoryCommit{
 		Commit: &commit,
 	}
+	commits := []*github.RepositoryCommit{&rc}
+	replys := s.ParseCommit(commits)
 
-	cl.EXPECT().PRCommits().AnyTimes().Return(
-		[]*github.RepositoryCommit{
-			&rc,
-		})
+	// コミットメッセージをパースできてることを確認する
+	// 返り値の[]Replyが正しいかどうか?
+
+	expect := []Reply{
+		{
+			ReplyID: "1",
+			GitHash: "a3d",
+		},
+	}
+
+	assert.Equal(t, expect, replys)
+}
+
+func TestParseMsg(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	cl := NewMockclientI(ctrl)
 
 	s := &CallClient{
 		API: cl,
 	}
-	commits := s.API.PRCommits()
-	replys := s.ParseCommitMessage(commits)
 
-	// コミットメッセージをパースできてることを確認する
-	// 返り値の[]Replyが正しいかどうか?
-	fmt.Println(replys)
+	expect := "1037682054"
 
+	result := s.ParseMsg(`feat: this is test
+
+https://github.com/kijimaD/gar/pull/1#discussion_r1037682054`)
+
+	assert.Equal(t, expect, result)
 }

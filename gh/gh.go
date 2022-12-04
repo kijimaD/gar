@@ -4,6 +4,7 @@ package gh
 
 import (
 	"context"
+	"fmt"
 	"os"
 
 	"github.com/google/go-github/v48/github"
@@ -18,6 +19,13 @@ type clientI interface {
 
 type Gh struct {
 	Client *github.Client
+	PR     PR
+}
+
+type PR struct {
+	repo   string
+	user   string
+	number int
 }
 
 func New() (*Gh, error) {
@@ -71,10 +79,11 @@ func (gh *Gh) PRCommits() []*github.RepositoryCommit {
 		panic(err)
 	}
 
-	// for _, c := range commits {
-	// 	fmt.Printf("%v\n", c)
-	// 	fmt.Printf("%v\n", *c.Commit.Message)
-	// }
+	for _, c := range commits {
+		fmt.Printf("%v\n", c)
+		fmt.Printf("%v\n", *c.Commit.Message)
+		fmt.Printf("%v\n", *c.SHA)
+	}
 
 	return commits
 }
