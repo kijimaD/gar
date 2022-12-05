@@ -1,6 +1,7 @@
 package gh
 
 import (
+	"os"
 	"testing"
 
 	gomock "github.com/golang/mock/gomock"
@@ -40,7 +41,7 @@ https://github.com/kijimaD/gar/pull/1#discussion_r1037682054`
 	}
 
 	commits := []*github.RepositoryCommit{&rc0, &rc1}
-	s := NewClient(cl)
+	s := NewClient(cl, os.Stdout)
 	s.Commits = commits
 
 	s.ParseCommit()
@@ -65,7 +66,7 @@ func TestParseMsg(t *testing.T) {
 		Number: 1,
 	})
 
-	s := NewClient(cl)
+	s := NewClient(cl, os.Stdout)
 
 	expect := int64(1037682054)
 
@@ -111,4 +112,18 @@ https://github.com/kijimaD/gar/pull/2#discussion_r1037682054`
 			t.Error(err)
 		}
 	})
+}
+
+func TestDisplay(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	cl := NewMockclientI(ctrl)
+	s := NewClient(cl, os.Stdout)
+	s.Replys = []Reply{
+		{
+			ReplyID: int64(1037682054),
+			GitHash: "1111111",
+		},
+	}
+
+	s.Display()
 }

@@ -2,6 +2,7 @@ package gh
 
 import (
 	"fmt"
+	"io"
 	"regexp"
 	"strconv"
 
@@ -10,13 +11,15 @@ import (
 
 type CallClient struct {
 	API     clientI
+	Writer  io.Writer
 	Commits []*github.RepositoryCommit
 	Replys  []Reply
 }
 
-func NewClient(api clientI) *CallClient {
+func NewClient(api clientI, writer io.Writer) *CallClient {
 	return &CallClient{
-		API: api,
+		API:    api,
+		Writer: writer,
 	}
 }
 
@@ -72,6 +75,21 @@ func (c *CallClient) parseMsg(s string) (int64, error) {
 		return -1, err
 	}
 	return int64, nil
+}
+
+func (c *CallClient) Display() {
+	fmt.Println("The execution of this command will result in the following.")
+	for i, r := range c.Replys {
+		fmt.Printf("●────────────────────────●\n")
+		fmt.Printf("%d. [%s] -> %d\n", i, r.GitHash[0:7], r.ReplyID)
+		fmt.Printf("●────────────────────────●\n")
+		// ●────────────────────────────────────────────────────────●
+
+		// 00. [369a79d] 誤字を修正し... -> 1037682054 ここを修正してく...
+		// 01. [32ajf39] ロジックを直... -> 1037683093 おかしくないです...
+
+		// ●────────────────────────────────────────────────────────●
+	}
 }
 
 func (c *CallClient) SendReply() {
