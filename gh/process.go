@@ -22,13 +22,6 @@ func NewClient(api clientI, pr PR) *CallClient {
 	}
 }
 
-func (c *CallClient) showHash() {
-	pr := c.API.PRDetail()
-	curBranch := *pr.Head.Ref
-	baseBranch := *pr.Base.Ref
-	fmt.Println(curBranch, baseBranch)
-}
-
 type Reply struct {
 	ReplyID int64
 	GitHash string

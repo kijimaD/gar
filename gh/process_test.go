@@ -8,30 +8,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestShowHash(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	cl := NewMockclientI(ctrl)
-
-	number := 1
-	hRef := "dev"
-	head := github.PullRequestBranch{
-		Ref: &hRef,
-	}
-	bRef := "main"
-	base := github.PullRequestBranch{
-		Ref: &bRef,
-	}
-
-	cl.EXPECT().PRDetail().AnyTimes().Return(&github.PullRequest{
-		Number: &number,
-		Head:   &head,
-		Base:   &base,
-	})
-
-	s := NewClient(cl, PR{})
-	s.showHash()
-}
-
 func TestParseCommit(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
