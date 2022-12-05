@@ -79,17 +79,17 @@ func (c *CallClient) parseMsg(s string) (int64, error) {
 
 func (c *CallClient) Display() {
 	fmt.Println("The execution of this command will result in the following.")
-	for i, r := range c.Replys {
-		fmt.Fprintf(c.Writer, "●────────────────────────●\n")
-		fmt.Fprintf(c.Writer, "%d. [%s] -> %d\n", i, r.GitHash[0:7], r.ReplyID)
-		fmt.Fprintf(c.Writer, "●────────────────────────●\n")
-		// ●────────────────────────────────────────────────────────●
+	fmt.Fprintf(c.Writer, "●────────────────────────●\n")
 
-		// 00. [369a79d] 誤字を修正し... -> 1037682054 ここを修正してく...
-		// 01. [32ajf39] ロジックを直... -> 1037683093 おかしくないです...
-
-		// ●────────────────────────────────────────────────────────●
+	if len(c.Replys) == 0 {
+		fmt.Fprintf(c.Writer, "Not found reply target!\n")
+	} else {
+		for i, r := range c.Replys {
+			fmt.Fprintf(c.Writer, "%02d. [%s] %s -> %d %s\n", i, r.GitHash[0:7], "commit msg...", r.ReplyID, "元コメント...")
+		}
 	}
+
+	fmt.Fprintf(c.Writer, "●────────────────────────●\n")
 }
 
 func (c *CallClient) SendReply() {

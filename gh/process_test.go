@@ -118,21 +118,48 @@ https://github.com/kijimaD/gar/pull/2#discussion_r1037682054`
 func TestDisplay(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
-	buffer := bytes.Buffer{}
-	s := NewClient(cl, &buffer)
-	s.Replys = []Reply{
-		{
-			ReplyID: int64(1037682054),
-			GitHash: "1111111",
-		},
-	}
 
-	s.Display()
+	t.Run("Replyが存在するとき", func(t *testing.T) {
+		buffer := bytes.Buffer{}
+		s := NewClient(cl, &buffer)
 
-	got := buffer.String()
-	expect := `●────────────────────────●
-0. [1111111] -> 1037682054
+		s.Replys = []Reply{
+			{
+				ReplyID: int64(1037682054),
+				GitHash: "1111111",
+			},
+			{
+				ReplyID: int64(1037699999),
+				GitHash: "1122334",
+			},
+			{
+				ReplyID: int64(1037699999),
+				GitHash: "1122334",
+			},
+		}
+		s.Display()
+
+		got := buffer.String()
+		expect := `●────────────────────────●
+00. [1111111] commit msg... -> 1037682054 元コメント...
+01. [1122334] commit msg... -> 1037699999 元コメント...
+02. [1122334] commit msg... -> 1037699999 元コメント...
 ●────────────────────────●
 `
-	assert.Equal(t, expect, got)
+		assert.Equal(t, expect, got)
+	})
+
+	t.Run("Reply対象が存在しないとき", func(t *testing.T) {
+		buffer := bytes.Buffer{}
+		s := NewClient(cl, &buffer)
+		s.Replys = []Reply{}
+		s.Display()
+
+		got := buffer.String()
+		expect := `●────────────────────────●
+Not found reply target!
+●────────────────────────●
+`
+		assert.Equal(t, expect, got)
+	})
 }
