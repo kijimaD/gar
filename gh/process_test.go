@@ -1,6 +1,7 @@
 package gh
 
 import (
+	"bytes"
 	"os"
 	"testing"
 
@@ -117,7 +118,8 @@ https://github.com/kijimaD/gar/pull/2#discussion_r1037682054`
 func TestDisplay(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
-	s := NewClient(cl, os.Stdout)
+	buffer := bytes.Buffer{}
+	s := NewClient(cl, &buffer)
 	s.Replys = []Reply{
 		{
 			ReplyID: int64(1037682054),
@@ -126,4 +128,11 @@ func TestDisplay(t *testing.T) {
 	}
 
 	s.Display()
+
+	got := buffer.String()
+	expect := `●────────────────────────●
+0. [1111111] -> 1037682054
+●────────────────────────●
+`
+	assert.Equal(t, expect, got)
 }

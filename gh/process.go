@@ -80,9 +80,9 @@ func (c *CallClient) parseMsg(s string) (int64, error) {
 func (c *CallClient) Display() {
 	fmt.Println("The execution of this command will result in the following.")
 	for i, r := range c.Replys {
-		fmt.Printf("●────────────────────────●\n")
-		fmt.Printf("%d. [%s] -> %d\n", i, r.GitHash[0:7], r.ReplyID)
-		fmt.Printf("●────────────────────────●\n")
+		fmt.Fprintf(c.Writer, "●────────────────────────●\n")
+		fmt.Fprintf(c.Writer, "%d. [%s] -> %d\n", i, r.GitHash[0:7], r.ReplyID)
+		fmt.Fprintf(c.Writer, "●────────────────────────●\n")
 		// ●────────────────────────────────────────────────────────●
 
 		// 00. [369a79d] 誤字を修正し... -> 1037682054 ここを修正してく...
