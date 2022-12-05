@@ -49,8 +49,9 @@ https://github.com/kijimaD/gar/pull/1#discussion_r1037682054`
 
 	expect := []Reply{
 		{
-			ReplyID: int64(1037682054),
-			GitHash: sha0,
+			ReplyID:   int64(1037682054),
+			GitHash:   sha0,
+			CommitMsg: message0,
 		},
 	}
 
@@ -125,27 +126,34 @@ func TestDisplay(t *testing.T) {
 
 		s.Replys = []Reply{
 			{
-				ReplyID: int64(1037682054),
-				GitHash: "1111111",
+				ReplyID:   int64(1037682054),
+				GitHash:   "1111111",
+				CommitMsg: "修正した",
 			},
 			{
-				ReplyID: int64(1037699999),
-				GitHash: "1122334",
+				ReplyID:   int64(1037699999),
+				GitHash:   "1122334",
+				CommitMsg: "リファクタした",
 			},
 			{
-				ReplyID: int64(1037699999),
-				GitHash: "1122334",
+				ReplyID:   int64(1037699999),
+				GitHash:   "1122334",
+				CommitMsg: "テストを直した",
 			},
 		}
 		s.Display()
 
 		got := buffer.String()
-		expect := `●────────────────────────●
-00. [1111111] commit msg... -> 1037682054 元コメント...
-01. [1122334] commit msg... -> 1037699999 元コメント...
-02. [1122334] commit msg... -> 1037699999 元コメント...
+		expect := `The execution of this command will result in the following.
+●────────────────────────●
+00. [1111111] 修正した -> 1037682054 元コメント...
+01. [1122334] リファクタした -> 1037699999 元コメント...
+02. [1122334] テストを直した -> 1037699999 元コメント...
 ●────────────────────────●
 `
+		// 03. [3333333] commit msg...
+		// 04. [4444444] commit msg...
+
 		assert.Equal(t, expect, got)
 	})
 
@@ -156,7 +164,8 @@ func TestDisplay(t *testing.T) {
 		s.Display()
 
 		got := buffer.String()
-		expect := `●────────────────────────●
+		expect := `The execution of this command will result in the following.
+●────────────────────────●
 Not found reply target!
 ●────────────────────────●
 `

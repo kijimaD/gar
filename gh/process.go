@@ -24,8 +24,9 @@ func NewClient(api clientI, writer io.Writer) *CallClient {
 }
 
 type Reply struct {
-	ReplyID int64
-	GitHash string
+	ReplyID   int64
+	GitHash   string
+	CommitMsg string
 }
 
 func (c *CallClient) GetCommits() {
@@ -47,8 +48,9 @@ func (c *CallClient) ParseCommit() {
 		}
 
 		reply := Reply{
-			ReplyID: id,
-			GitHash: *commit.SHA,
+			ReplyID:   id,
+			GitHash:   *commit.SHA,
+			CommitMsg: *commit.Commit.Message,
 		}
 
 		replys = append(replys, reply)
@@ -78,14 +80,14 @@ func (c *CallClient) parseMsg(s string) (int64, error) {
 }
 
 func (c *CallClient) Display() {
-	fmt.Println("The execution of this command will result in the following.")
+	fmt.Fprintln(c.Writer, "The execution of this command will result in the following.")
 	fmt.Fprintf(c.Writer, "●────────────────────────●\n")
 
 	if len(c.Replys) == 0 {
 		fmt.Fprintf(c.Writer, "Not found reply target!\n")
 	} else {
 		for i, r := range c.Replys {
-			fmt.Fprintf(c.Writer, "%02d. [%s] %s -> %d %s\n", i, r.GitHash[0:7], "commit msg...", r.ReplyID, "元コメント...")
+			fmt.Fprintf(c.Writer, "%02d. [%s] %s -> %d %s\n", i, r.GitHash[0:7], r.CommitMsg, r.ReplyID, "元コメント...")
 		}
 	}
 
