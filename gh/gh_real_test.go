@@ -16,7 +16,7 @@ func TestReplyReal(t *testing.T) {
 		t.Error(err)
 	}
 
-	gh.Reply(
+	gh.SendReply(
 		Reply{
 			ReplyID: int64(1037682054),
 			GitHash: "111111",

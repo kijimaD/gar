@@ -85,7 +85,7 @@ func (c *CallClient) parseMsg(s string) (int64, error) {
 
 func (c *CallClient) SendReply() {
 	for _, r := range c.Replys {
-		c.API.Reply(Reply{
+		c.API.SendReply(Reply{
 			ReplyID: r.ReplyID,
 			GitHash: r.GitHash,
 		})

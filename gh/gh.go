@@ -19,7 +19,7 @@ var (
 )
 
 type clientI interface {
-	Reply(Reply)
+	SendReply(Reply)
 	PRDetail() *github.PullRequest
 	PRCommits() []*github.RepositoryCommit
 }
@@ -81,7 +81,7 @@ func getGitInfo() (*PR, error) {
 	}, nil
 }
 
-func (gh *Gh) Reply(r Reply) {
+func (gh *Gh) SendReply(r Reply) {
 	ctx := context.Background()
 	msg := fmt.Sprintf("check 👉 %s", r.GitHash)
 	_, _, err := gh.Client.PullRequests.CreateCommentInReplyTo(ctx, gh.PR.User, gh.PR.Repo, gh.PR.Number, msg, r.ReplyID)

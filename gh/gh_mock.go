@@ -62,14 +62,14 @@ func (mr *MockclientIMockRecorder) PRDetail() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PRDetail", reflect.TypeOf((*MockclientI)(nil).PRDetail))
 }
 
-// Reply mocks base method.
-func (m *MockclientI) Reply(arg0 Reply) {
+// SendReply mocks base method.
+func (m *MockclientI) SendReply(arg0 Reply) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Reply", arg0)
+	m.ctrl.Call(m, "SendReply", arg0)
 }
 
-// Reply indicates an expected call of Reply.
-func (mr *MockclientIMockRecorder) Reply(arg0 interface{}) *gomock.Call {
+// SendReply indicates an expected call of SendReply.
+func (mr *MockclientIMockRecorder) SendReply(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Reply", reflect.TypeOf((*MockclientI)(nil).Reply), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendReply", reflect.TypeOf((*MockclientI)(nil).SendReply), arg0)
 }
