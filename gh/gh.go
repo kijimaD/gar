@@ -24,7 +24,7 @@ type clientI interface {
 	PRCommits() []*github.RepositoryCommit
 }
 
-type Gh struct {
+type GitHub struct {
 	Client *github.Client
 	PR     PR
 }
@@ -35,7 +35,7 @@ type PR struct {
 	Number int
 }
 
-func New(PRnumber int) (*Gh, error) {
+func New(PRnumber int) (*GitHub, error) {
 	token := os.Getenv("GH_TOKEN")
 
 	ctx := context.Background()
@@ -51,7 +51,7 @@ func New(PRnumber int) (*Gh, error) {
 	}
 	pr.Number = PRnumber
 
-	return &Gh{
+	return &GitHub{
 		Client: client,
 		PR:     *pr,
 	}, nil
@@ -81,7 +81,7 @@ func getGitInfo() (*PR, error) {
 	}, nil
 }
 
-func (gh *Gh) SendReply(r Reply) {
+func (gh *GitHub) SendReply(r Reply) {
 	ctx := context.Background()
 	msg := fmt.Sprintf("check 👉 %s", r.GitHash)
 	_, _, err := gh.Client.PullRequests.CreateCommentInReplyTo(ctx, gh.PR.User, gh.PR.Repo, gh.PR.Number, msg, r.ReplyID)
@@ -91,7 +91,7 @@ func (gh *Gh) SendReply(r Reply) {
 	}
 }
 
-func (gh *Gh) PRDetail() *github.PullRequest {
+func (gh *GitHub) PRDetail() *github.PullRequest {
 	ctx := context.Background()
 	pr, _, err := gh.Client.PullRequests.Get(ctx, gh.PR.User, gh.PR.Repo, gh.PR.Number)
 
@@ -109,7 +109,7 @@ func (gh *Gh) PRDetail() *github.PullRequest {
 	return pr
 }
 
-func (gh *Gh) PRCommits() []*github.RepositoryCommit {
+func (gh *GitHub) PRCommits() []*github.RepositoryCommit {
 	ctx := context.Background()
 	commits, _, err := gh.Client.PullRequests.ListCommits(ctx, gh.PR.User, gh.PR.Repo, gh.PR.Number, nil)
 
