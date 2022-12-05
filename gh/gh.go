@@ -22,6 +22,7 @@ type clientI interface {
 	SendReply(Reply)
 	PRDetail() *github.PullRequest
 	PRCommits() []*github.RepositoryCommit
+	GetPR() PR
 }
 
 type GitHub struct {
@@ -124,4 +125,8 @@ func (gh *GitHub) PRCommits() []*github.RepositoryCommit {
 	// }
 
 	return commits
+}
+
+func (gh *GitHub) GetPR() PR {
+	return gh.PR
 }

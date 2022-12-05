@@ -10,7 +10,7 @@ import (
 
 // レビューコメントに返信する
 func TestReplyReal(t *testing.T) {
-	gh, err := New()
+	gh, err := New(1)
 
 	if err != nil {
 		t.Error(err)
@@ -26,7 +26,7 @@ func TestReplyReal(t *testing.T) {
 
 // PRの詳細情報を取得する
 func TestPRDetailReal(t *testing.T) {
-	gh, err := New()
+	gh, err := New(1)
 
 	if err != nil {
 		t.Error(err)
@@ -36,7 +36,7 @@ func TestPRDetailReal(t *testing.T) {
 }
 
 func TestPRCommitsReal(t *testing.T) {
-	gh, err := New()
+	gh, err := New(1)
 
 	if err != nil {
 		t.Error(err)

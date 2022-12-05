@@ -34,6 +34,20 @@ func (m *MockclientI) EXPECT() *MockclientIMockRecorder {
 	return m.recorder
 }
 
+// GetPR mocks base method.
+func (m *MockclientI) GetPR() PR {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetPR")
+	ret0, _ := ret[0].(PR)
+	return ret0
+}
+
+// GetPR indicates an expected call of GetPR.
+func (mr *MockclientIMockRecorder) GetPR() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPR", reflect.TypeOf((*MockclientI)(nil).GetPR))
+}
+
 // PRCommits mocks base method.
 func (m *MockclientI) PRCommits() []*github.RepositoryCommit {
 	m.ctrl.T.Helper()

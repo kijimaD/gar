@@ -9,16 +9,14 @@ import (
 )
 
 type CallClient struct {
-	PR      PR
 	API     clientI
 	Commits []*github.RepositoryCommit
 	Replys  []Reply
 }
 
-func NewClient(api clientI, pr PR) *CallClient {
+func NewClient(api clientI) *CallClient {
 	return &CallClient{
 		API: api,
-		PR:  pr,
 	}
 }
 
@@ -57,9 +55,9 @@ func (c *CallClient) ParseCommit() {
 }
 
 func (c *CallClient) parseMsg(s string) (int64, error) {
-	user := c.PR.User
-	repo := c.PR.Repo
-	num := c.PR.Number
+	user := c.API.GetPR().User
+	repo := c.API.GetPR().Repo
+	num := c.API.GetPR().Number
 	regex := fmt.Sprintf(`https://github.com/%s/%s/pull/%d#discussion_r(\d+)`, user, repo, num)
 	r := regexp.MustCompile(regex)
 

@@ -14,7 +14,7 @@ func TestMain(t *testing.T) {
 		panic(err)
 	}
 
-	c := gh.NewClient(g, g.PR)
+	c := gh.NewClient(g)
 	c.GetCommits()
 	c.ParseCommit()
 	c.SendReply()

@@ -11,6 +11,11 @@ import (
 func TestParseCommit(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
+	cl.EXPECT().GetPR().Times(6).Return(PR{
+		User:   "kijimaD",
+		Repo:   "gar",
+		Number: 1,
+	})
 
 	message0 := `this is commit message
 
@@ -35,12 +40,7 @@ https://github.com/kijimaD/gar/pull/1#discussion_r1037682054`
 	}
 
 	commits := []*github.RepositoryCommit{&rc0, &rc1}
-	pr := PR{
-		User:   "kijimaD",
-		Repo:   "gar",
-		Number: 1,
-	}
-	s := NewClient(cl, pr)
+	s := NewClient(cl)
 	s.Commits = commits
 
 	s.ParseCommit()
@@ -59,14 +59,13 @@ https://github.com/kijimaD/gar/pull/1#discussion_r1037682054`
 func TestParseMsg(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
-
-	pr := PR{
+	cl.EXPECT().GetPR().Times(9).Return(PR{
 		User:   "kijimaD",
 		Repo:   "gar",
 		Number: 1,
-	}
+	})
 
-	s := NewClient(cl, pr)
+	s := NewClient(cl)
 
 	expect := int64(1037682054)
 
