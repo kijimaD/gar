@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"gar/gh"
+	"os"
 )
 
 func main() {
@@ -20,8 +21,9 @@ func main() {
 		panic(err)
 	}
 
-	c := gh.NewClient(g)
+	c := gh.NewClient(g, os.Stdout)
 	c.GetCommits()
 	c.ParseCommit()
+	c.Display()
 	c.SendReply()
 }

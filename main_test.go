@@ -4,6 +4,7 @@ package main
 
 import (
 	"gar/gh"
+	"os"
 	"testing"
 )
 
@@ -14,8 +15,9 @@ func TestMain(t *testing.T) {
 		panic(err)
 	}
 
-	c := gh.NewClient(g)
+	c := gh.NewClient(g, os.Stdout)
 	c.GetCommits()
 	c.ParseCommit()
+	c.Display()
 	c.SendReply()
 }
