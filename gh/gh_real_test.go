@@ -24,17 +24,6 @@ func TestReplyReal(t *testing.T) {
 	)
 }
 
-// PRの詳細情報を取得する
-func TestPRDetailReal(t *testing.T) {
-	gh, err := New(1)
-
-	if err != nil {
-		t.Error(err)
-	}
-
-	gh.PRDetail()
-}
-
 func TestPRCommitsReal(t *testing.T) {
 	gh, err := New(1)
 
@@ -43,4 +32,14 @@ func TestPRCommitsReal(t *testing.T) {
 	}
 
 	gh.PRCommits()
+}
+
+func TestGetComment(t *testing.T) {
+	gh, err := New(1)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	gh.GetComment(1037682054)
 }

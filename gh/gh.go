@@ -20,9 +20,9 @@ var (
 
 type clientI interface {
 	SendReply(Reply)
-	PRDetail() *github.PullRequest
 	PRCommits() []*github.RepositoryCommit
 	GetPR() PR
+	GetComment(commentID int64) *github.PullRequestComment
 }
 
 type GitHub struct {
@@ -92,24 +92,6 @@ func (gh *GitHub) SendReply(r Reply) {
 	}
 }
 
-func (gh *GitHub) PRDetail() *github.PullRequest {
-	ctx := context.Background()
-	pr, _, err := gh.Client.PullRequests.Get(ctx, gh.PR.User, gh.PR.Repo, gh.PR.Number)
-
-	if err != nil {
-		panic(err)
-	}
-
-	// fmt.Println("pr================")
-	// fmt.Printf("%v\n", pr)
-	// fmt.Println("head================")
-	// fmt.Printf("%v\n", *pr.Head.Ref) // PRのブランチ
-	// fmt.Println("commits================")
-	// fmt.Printf("%v\n", *pr.Base.Ref) // PRのベースブランチ
-
-	return pr
-}
-
 func (gh *GitHub) PRCommits() []*github.RepositoryCommit {
 	ctx := context.Background()
 	commits, _, err := gh.Client.PullRequests.ListCommits(ctx, gh.PR.User, gh.PR.Repo, gh.PR.Number, nil)
@@ -118,15 +100,20 @@ func (gh *GitHub) PRCommits() []*github.RepositoryCommit {
 		panic(err)
 	}
 
-	// for _, c := range commits {
-	// 	fmt.Printf("%v\n", c)
-	// 	fmt.Printf("%v\n", *c.Commit.Message)
-	// 	fmt.Printf("%v\n", *c.SHA)
-	// }
-
 	return commits
 }
 
 func (gh *GitHub) GetPR() PR {
 	return gh.PR
+}
+
+func (gh *GitHub) GetComment(commentID int64) *github.PullRequestComment {
+	ctx := context.Background()
+	comment, _, err := gh.Client.PullRequests.GetComment(ctx, gh.PR.User, gh.PR.Repo, commentID)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return comment
 }
