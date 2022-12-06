@@ -145,15 +145,14 @@ func TestDisplay(t *testing.T) {
 
 		got := buffer.String()
 		expect := `The execution of this command will result in the following.
-●────────────────────────────────────────────────●
-00. [1111111] try to fi  -> 1037682054 元コメント...
-01. [1122334] refactor   -> 1037699999 元コメント...
-02. [1122334] typo       -> 1037699999 元コメント...
-●────────────────────────────────────────────────●
++-----+-------------------+-------------------+------+
+| IDX |      COMMIT       |  LINKED COMMENT   | SEND |
++-----+-------------------+-------------------+------+
+|  00 | 1111111 try to fi | this is original  | yes  |
+|  01 | 1122334 refactor  | this is original  | yes  |
+|  02 | 1122334 typo      | this is original  | yes  |
++-----+-------------------+-------------------+------+
 `
-		// 03. [3333333] commit msg...
-		// 04. [4444444] commit msg...
-
 		assert.Equal(t, expect, got)
 	})
 
@@ -165,9 +164,7 @@ func TestDisplay(t *testing.T) {
 
 		got := buffer.String()
 		expect := `The execution of this command will result in the following.
-●────────────────────────────────────────────────●
 Not found reply target!
-●────────────────────────────────────────────────●
 `
 		assert.Equal(t, expect, got)
 	})

@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/google/go-github/v48/github"
+	"github.com/olekukonko/tablewriter"
 )
 
 type CallClient struct {
@@ -82,24 +83,31 @@ func (c *CallClient) parseMsg(s string) (int64, error) {
 
 func (c *CallClient) Display() {
 	fmt.Fprintln(c.Writer, "The execution of this command will result in the following.")
-	fmt.Fprintf(c.Writer, "●────────────────────────────────────────────────●\n")
 
 	if len(c.Replys) == 0 {
 		fmt.Fprintf(c.Writer, "Not found reply target!\n")
 	} else {
-		for i, r := range c.Replys {
-			fmt.Fprintf(c.Writer,
-				"%02d. [%s] %-10s -> %10d %s\n",
-				i,
-				r.GitHash[0:7],
-				strutil.Substring(r.CommitMsg, 0, 9),
-				r.ReplyID,
-				"元コメント...",
-			)
-		}
-	}
+		data := [][]string{}
 
-	fmt.Fprintf(c.Writer, "●────────────────────────────────────────────────●\n")
+		for i, r := range c.Replys {
+			data = append(data, []string{
+				fmt.Sprintf("%02d", i),
+				fmt.Sprintf(
+					"%s %s",
+					r.GitHash[0:7],
+					strutil.Substring(r.CommitMsg, 0, 9)),
+				strutil.Substring("this is original comment...", 0, 17),
+				"yes",
+			})
+		}
+
+		table := tablewriter.NewWriter(c.Writer)
+		table.SetHeader([]string{"IDX", "COMMIT", "LINKED COMMENT", "SEND"})
+		for _, v := range data {
+			table.Append(v)
+		}
+		table.Render()
+	}
 }
 
 func (c *CallClient) SendReply() {
