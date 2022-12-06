@@ -2,6 +2,7 @@ package gh
 
 import (
 	"fmt"
+	"gar/strutil"
 	"io"
 	"regexp"
 	"strconv"
@@ -81,17 +82,24 @@ func (c *CallClient) parseMsg(s string) (int64, error) {
 
 func (c *CallClient) Display() {
 	fmt.Fprintln(c.Writer, "The execution of this command will result in the following.")
-	fmt.Fprintf(c.Writer, "●────────────────────────●\n")
+	fmt.Fprintf(c.Writer, "●────────────────────────────────────────────────●\n")
 
 	if len(c.Replys) == 0 {
 		fmt.Fprintf(c.Writer, "Not found reply target!\n")
 	} else {
 		for i, r := range c.Replys {
-			fmt.Fprintf(c.Writer, "%02d. [%s] %s -> %d %s\n", i, r.GitHash[0:7], r.CommitMsg, r.ReplyID, "元コメント...")
+			fmt.Fprintf(c.Writer,
+				"%02d. [%s] %-10s -> %10d %s\n",
+				i,
+				r.GitHash[0:7],
+				strutil.Substring(r.CommitMsg, 0, 9),
+				r.ReplyID,
+				"元コメント...",
+			)
 		}
 	}
 
-	fmt.Fprintf(c.Writer, "●────────────────────────●\n")
+	fmt.Fprintf(c.Writer, "●────────────────────────────────────────────────●\n")
 }
 
 func (c *CallClient) SendReply() {

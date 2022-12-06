@@ -120,7 +120,7 @@ func TestDisplay(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
 
-	t.Run("Replyが存在するとき", func(t *testing.T) {
+	t.Run("when exists reply", func(t *testing.T) {
 		buffer := bytes.Buffer{}
 		s := NewClient(cl, &buffer)
 
@@ -128,28 +128,28 @@ func TestDisplay(t *testing.T) {
 			{
 				ReplyID:   int64(1037682054),
 				GitHash:   "1111111",
-				CommitMsg: "修正した",
+				CommitMsg: "try to fix problem",
 			},
 			{
 				ReplyID:   int64(1037699999),
 				GitHash:   "1122334",
-				CommitMsg: "リファクタした",
+				CommitMsg: "refactor long comment",
 			},
 			{
 				ReplyID:   int64(1037699999),
 				GitHash:   "1122334",
-				CommitMsg: "テストを直した",
+				CommitMsg: "typo",
 			},
 		}
 		s.Display()
 
 		got := buffer.String()
 		expect := `The execution of this command will result in the following.
-●────────────────────────●
-00. [1111111] 修正した -> 1037682054 元コメント...
-01. [1122334] リファクタした -> 1037699999 元コメント...
-02. [1122334] テストを直した -> 1037699999 元コメント...
-●────────────────────────●
+●────────────────────────────────────────────────●
+00. [1111111] try to fi  -> 1037682054 元コメント...
+01. [1122334] refactor   -> 1037699999 元コメント...
+02. [1122334] typo       -> 1037699999 元コメント...
+●────────────────────────────────────────────────●
 `
 		// 03. [3333333] commit msg...
 		// 04. [4444444] commit msg...
@@ -157,7 +157,7 @@ func TestDisplay(t *testing.T) {
 		assert.Equal(t, expect, got)
 	})
 
-	t.Run("Reply対象が存在しないとき", func(t *testing.T) {
+	t.Run("when not exists reply", func(t *testing.T) {
 		buffer := bytes.Buffer{}
 		s := NewClient(cl, &buffer)
 		s.Replys = []Reply{}
@@ -165,9 +165,9 @@ func TestDisplay(t *testing.T) {
 
 		got := buffer.String()
 		expect := `The execution of this command will result in the following.
-●────────────────────────●
+●────────────────────────────────────────────────●
 Not found reply target!
-●────────────────────────●
+●────────────────────────────────────────────────●
 `
 		assert.Equal(t, expect, got)
 	})
