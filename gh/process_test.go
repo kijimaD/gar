@@ -150,19 +150,22 @@ func TestDisplay(t *testing.T) {
 
 		s.Replys = []Reply{
 			{
-				ReplyID:   int64(1037682054),
-				GitHash:   "1111111",
-				CommitMsg: "try to fix problem",
+				ReplyID:         int64(1037682054),
+				GitHash:         "1111111",
+				CommitMsg:       "try to fix problem",
+				OriginalComment: "original comment0",
 			},
 			{
-				ReplyID:   int64(1037699999),
-				GitHash:   "1122334",
-				CommitMsg: "refactor long comment",
+				ReplyID:         int64(1037699999),
+				GitHash:         "1122334",
+				CommitMsg:       "refactor long comment",
+				OriginalComment: "original comment1",
 			},
 			{
-				ReplyID:   int64(1037699999),
-				GitHash:   "1122334",
-				CommitMsg: "typo",
+				ReplyID:         int64(1037699999),
+				GitHash:         "1122334",
+				CommitMsg:       "typo",
+				OriginalComment: "original comment2",
 			},
 		}
 		s.Display()
@@ -172,9 +175,9 @@ func TestDisplay(t *testing.T) {
 +-----+-------------------+-------------------+------+
 | IDX |      COMMIT       |  LINKED COMMENT   | SEND |
 +-----+-------------------+-------------------+------+
-|  00 | 1111111 try to fi | this is original  | yes  |
-|  01 | 1122334 refactor  | this is original  | yes  |
-|  02 | 1122334 typo      | this is original  | yes  |
+|  00 | 1111111 try to fi | original comment0 | yes  |
+|  01 | 1122334 refactor  | original comment1 | yes  |
+|  02 | 1122334 typo      | original comment2 | yes  |
 +-----+-------------------+-------------------+------+
 `
 		assert.Equal(t, expect, got)

@@ -105,7 +105,7 @@ func (c *CallClient) Display() {
 					"%s %s",
 					r.GitHash[0:7],
 					strutil.Substring(r.CommitMsg, 0, 9)),
-				strutil.Substring("this is original comment...", 0, 17),
+				strutil.Substring(r.OriginalComment, 0, 17),
 				"yes",
 			})
 		}
