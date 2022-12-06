@@ -18,5 +18,6 @@ func TestMain(t *testing.T) {
 	c := gh.NewClient(g, os.Stdout)
 	c.GetCommits()
 	c.ParseCommit()
+	c.Display()
 	c.SendReply()
 }
