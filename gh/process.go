@@ -26,9 +26,10 @@ func NewClient(api clientI, writer io.Writer) *CallClient {
 }
 
 type Reply struct {
-	ReplyID   int64
-	GitHash   string
-	CommitMsg string
+	ReplyID         int64
+	GitHash         string
+	CommitMsg       string
+	OriginalComment string
 }
 
 func (c *CallClient) GetCommits() {
@@ -79,6 +80,14 @@ func (c *CallClient) parseMsg(s string) (int64, error) {
 		return -1, err
 	}
 	return int64, nil
+}
+
+func (c *CallClient) FetchComment() {
+	for i, r := range c.Replys {
+		comment := c.API.GetComment(r.ReplyID)
+
+		c.Replys[i].OriginalComment = *comment.Body
+	}
 }
 
 func (c *CallClient) Display() {

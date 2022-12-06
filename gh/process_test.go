@@ -116,6 +116,30 @@ https://github.com/kijimaD/gar/pull/2#discussion_r1037682054`
 	})
 }
 
+func TestFetchComment(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	cl := NewMockclientI(ctrl)
+
+	body := "original comment"
+	cl.EXPECT().GetComment(gomock.Any()).Times(1).Return(&github.PullRequestComment{
+		Body: &body,
+	})
+
+	s := NewClient(cl, os.Stdout)
+	s.Replys = []Reply{
+		{
+			ReplyID:   int64(1037682054),
+			GitHash:   "1111111",
+			CommitMsg: "commit msg",
+		},
+	}
+	s.FetchComment()
+
+	for _, r := range s.Replys {
+		assert.Equal(t, body, r.OriginalComment)
+	}
+}
+
 func TestDisplay(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
