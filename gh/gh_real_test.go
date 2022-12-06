@@ -43,3 +43,13 @@ func TestGetComment(t *testing.T) {
 
 	gh.GetComment(1037682054)
 }
+
+func TestGetCommentList(t *testing.T) {
+	gh, err := New(1)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	gh.GetCommentList()
+}

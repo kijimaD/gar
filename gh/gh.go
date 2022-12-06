@@ -117,3 +117,14 @@ func (gh *GitHub) GetComment(commentID int64) *github.PullRequestComment {
 
 	return comment
 }
+
+func (gh *GitHub) GetCommentList() []*github.PullRequestComment {
+	ctx := context.Background()
+	comments, _, err := gh.Client.PullRequests.ListComments(ctx, gh.PR.User, gh.PR.Repo, gh.PR.Number, &github.PullRequestListCommentsOptions{})
+
+	if err != nil {
+		panic(err)
+	}
+
+	return comments
+}
