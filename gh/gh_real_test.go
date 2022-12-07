@@ -9,20 +9,20 @@ import (
 )
 
 // レビューコメントに返信する
-func TestReplyReal(t *testing.T) {
-	gh, err := New(1)
+// func TestReplyReal(t *testing.T) {
+// 	gh, err := New(1)
 
-	if err != nil {
-		t.Error(err)
-	}
+// 	if err != nil {
+// 		t.Error(err)
+// 	}
 
-	gh.SendReply(
-		Reply{
-			ReplyID: int64(1037682054),
-			GitHash: "111111",
-		},
-	)
-}
+// 	gh.SendReply(
+// 		Reply{
+// 			ReplyID: int64(1037682054),
+// 			GitHash: "111111",
+// 		},
+// 	)
+// }
 
 func TestPRCommitsReal(t *testing.T) {
 	gh, err := New(1)

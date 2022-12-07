@@ -5,6 +5,7 @@ import (
 	"flag"
 	"gar/gh"
 	"io"
+	"strconv"
 )
 
 type CLI struct {
@@ -19,11 +20,10 @@ var (
 )
 
 var (
-	PRNumNotExistError = errors.New("error: need PR number option. -n {number}")
+	PRNumNotExistError = errors.New("require PR number argument")
 )
 
 func init() {
-	flag.IntVar(&n, "n", -1, "PR number")
 	flag.BoolVar(&f, "false", false, "send reply")
 }
 
@@ -33,14 +33,19 @@ func New(stdout io.Writer) *CLI {
 	}
 }
 
-func (cli *CLI) Run() error {
+func (cli *CLI) Run(args []string) error {
 	flag.Parse()
-	if n == -1 {
+
+	if len(args) <= 1 {
 		return PRNumNotExistError
 	}
 
-	g, err := gh.New(n)
+	n, err := strconv.Atoi(args[1])
+	if err != nil {
+		return err
+	}
 
+	g, err := gh.New(n)
 	if err != nil {
 		panic(err)
 	}
