@@ -34,14 +34,14 @@ func TestPRCommitsReal(t *testing.T) {
 	gh.PRCommits()
 }
 
-func TestGetComment(t *testing.T) {
+func TestGetCommentByID(t *testing.T) {
 	gh, err := New(1)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	gh.GetComment(1037682054)
+	gh.GetCommentByID(1037682054)
 }
 
 func TestGetCommentList(t *testing.T) {

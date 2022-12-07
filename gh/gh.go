@@ -22,7 +22,8 @@ type clientI interface {
 	SendReply(Reply)
 	PRCommits() []*github.RepositoryCommit
 	GetPR() PR
-	GetComment(commentID int64) *github.PullRequestComment
+	GetCommentByID(commentID int64) *github.PullRequestComment
+	GetCommentList() []*github.PullRequestComment
 }
 
 type GitHub struct {
@@ -107,7 +108,7 @@ func (gh *GitHub) GetPR() PR {
 	return gh.PR
 }
 
-func (gh *GitHub) GetComment(commentID int64) *github.PullRequestComment {
+func (gh *GitHub) GetCommentByID(commentID int64) *github.PullRequestComment {
 	ctx := context.Background()
 	comment, _, err := gh.Client.PullRequests.GetComment(ctx, gh.PR.User, gh.PR.Repo, commentID)
 

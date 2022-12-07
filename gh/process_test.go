@@ -116,12 +116,12 @@ https://github.com/kijimaD/gar/pull/2#discussion_r1037682054`
 	})
 }
 
-func TestFetchComment(t *testing.T) {
+func TestFetchCommentById(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
 
 	body := "original comment"
-	cl.EXPECT().GetComment(gomock.Any()).Times(1).Return(&github.PullRequestComment{
+	cl.EXPECT().GetCommentByID(gomock.Any()).Times(1).Return(&github.PullRequestComment{
 		Body: &body,
 	})
 
@@ -133,11 +133,26 @@ func TestFetchComment(t *testing.T) {
 			CommitMsg: "commit msg",
 		},
 	}
-	s.FetchComment()
+	s.FetchCommentById()
 
 	for _, r := range s.Replys {
 		assert.Equal(t, body, r.OriginalComment)
 	}
+}
+
+func TestFetchPRComment(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	cl := NewMockclientI(ctrl)
+
+	body := "original comment"
+	cl.EXPECT().GetCommentList().Times(1).Return([]*github.PullRequestComment{
+		{
+			Body: &body,
+		},
+	})
+
+	s := NewClient(cl, os.Stdout)
+	s.FetchPRComment()
 }
 
 func TestDisplay(t *testing.T) {

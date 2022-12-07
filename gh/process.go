@@ -30,6 +30,7 @@ type Reply struct {
 	GitHash         string
 	CommitMsg       string
 	OriginalComment string
+	Valid           bool
 }
 
 func (c *CallClient) GetCommits() {
@@ -82,12 +83,16 @@ func (c *CallClient) parseMsg(s string) (int64, error) {
 	return int64, nil
 }
 
-func (c *CallClient) FetchComment() {
+func (c *CallClient) FetchCommentById() {
 	for i, r := range c.Replys {
-		comment := c.API.GetComment(r.ReplyID)
+		comment := c.API.GetCommentByID(r.ReplyID)
 
 		c.Replys[i].OriginalComment = *comment.Body
 	}
+}
+
+func (c *CallClient) FetchPRComment() {
+	c.API.GetCommentList()
 }
 
 func (c *CallClient) Display() {

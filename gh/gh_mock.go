@@ -34,18 +34,32 @@ func (m *MockclientI) EXPECT() *MockclientIMockRecorder {
 	return m.recorder
 }
 
-// GetComment mocks base method.
-func (m *MockclientI) GetComment(commentID int64) *github.PullRequestComment {
+// GetCommentByID mocks base method.
+func (m *MockclientI) GetCommentByID(commentID int64) *github.PullRequestComment {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetComment", commentID)
+	ret := m.ctrl.Call(m, "GetCommentByID", commentID)
 	ret0, _ := ret[0].(*github.PullRequestComment)
 	return ret0
 }
 
-// GetComment indicates an expected call of GetComment.
-func (mr *MockclientIMockRecorder) GetComment(commentID interface{}) *gomock.Call {
+// GetCommentByID indicates an expected call of GetCommentByID.
+func (mr *MockclientIMockRecorder) GetCommentByID(commentID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetComment", reflect.TypeOf((*MockclientI)(nil).GetComment), commentID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCommentByID", reflect.TypeOf((*MockclientI)(nil).GetCommentByID), commentID)
+}
+
+// GetCommentList mocks base method.
+func (m *MockclientI) GetCommentList() []*github.PullRequestComment {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCommentList")
+	ret0, _ := ret[0].([]*github.PullRequestComment)
+	return ret0
+}
+
+// GetCommentList indicates an expected call of GetCommentList.
+func (mr *MockclientIMockRecorder) GetCommentList() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCommentList", reflect.TypeOf((*MockclientI)(nil).GetCommentList))
 }
 
 // GetPR mocks base method.
