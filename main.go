@@ -24,6 +24,8 @@ func main() {
 	c := gh.NewClient(g, os.Stdout)
 	c.GetCommits()
 	c.ParseCommit()
+	c.FetchCommentById()
+	c.FetchPRComment()
 	c.Display()
 	c.SendReply()
 }

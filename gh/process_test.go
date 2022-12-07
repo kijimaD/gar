@@ -144,15 +144,20 @@ func TestFetchPRComment(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
 
-	body := "original comment"
+	body0 := "comment0"
+	body1 := "comment1"
 	cl.EXPECT().GetCommentList().Times(1).Return([]*github.PullRequestComment{
 		{
-			Body: &body,
+			Body: &body0,
+		},
+		{
+			Body: &body1,
 		},
 	})
 
 	s := NewClient(cl, os.Stdout)
 	s.FetchPRComment()
+	assert.Equal(t, "comment0 comment1", s.PRComment)
 }
 
 func TestDisplay(t *testing.T) {

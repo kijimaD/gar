@@ -6,16 +6,18 @@ import (
 	"io"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/google/go-github/v48/github"
 	"github.com/olekukonko/tablewriter"
 )
 
 type CallClient struct {
-	API     clientI
-	Writer  io.Writer
-	Commits []*github.RepositoryCommit
-	Replys  []Reply
+	API       clientI
+	Writer    io.Writer
+	Commits   []*github.RepositoryCommit
+	Replys    []Reply
+	PRComment string
 }
 
 func NewClient(api clientI, writer io.Writer) *CallClient {
@@ -92,7 +94,13 @@ func (c *CallClient) FetchCommentById() {
 }
 
 func (c *CallClient) FetchPRComment() {
-	c.API.GetCommentList()
+	comments := c.API.GetCommentList()
+	var commentsStr []string
+	for _, com := range comments {
+		commentsStr = append(commentsStr, *com.Body)
+	}
+
+	c.PRComment = strings.Join(commentsStr, " ")
 }
 
 func (c *CallClient) Display() {

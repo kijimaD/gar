@@ -19,5 +19,7 @@ func TestMain(t *testing.T) {
 	c.GetCommits()
 	c.ParseCommit()
 	c.Display()
+	c.FetchCommentById()
+	c.FetchPRComment()
 	c.SendReply()
 }
