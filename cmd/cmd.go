@@ -15,7 +15,6 @@ type CLI struct {
 }
 
 var (
-	n int
 	f bool
 )
 

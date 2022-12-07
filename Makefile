@@ -3,7 +3,7 @@
 
 DOCKER_TAG := latest
 build: ## デプロイ用のイメージをビルドする
-	docker build -t kijimad/gar:${DOCKER_TAG} \
+	docker build -t ghcr.io/kijimad/gar:${DOCKER_TAG} \
 	--target deploy ./
 
 build-local: ## ローカル開発用のイメージをビルドする
@@ -29,6 +29,9 @@ test: ## テストを実行する
 
 testGH: ## GitHubへのアクセスが発生するテストを実行する
 	go test ./... -v -tags gh
+
+lint: ## run lint
+	golangci-lint run ./...
 
 help: ## ヘルプを表示する
 	@echo -e "──────● █▀▀ ▄▀█ █▀█ ●──────\n        █▄█ █▀█ █▀▄        "
