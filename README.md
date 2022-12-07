@@ -1,6 +1,5 @@
-# GAR
-
-gar is easy review reply tool.
+────● █▀▀ ▄▀█ █▀█ <br>
+●──── █▄█ █▀█ █▀▄ is easy review reply tool.
 
 <img src="https://user-images.githubusercontent.com/11595790/205955931-31b88633-e3ba-4aa3-96f1-660c41c114ee.png" width="30%" align=right>
 
