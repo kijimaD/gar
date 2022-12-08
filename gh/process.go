@@ -164,6 +164,10 @@ func (c *CallClient) Display() {
 
 func (c *CallClient) SendReply() {
 	for _, r := range c.Replys {
+		if !r.IsValid {
+			continue
+		}
+
 		c.API.SendReply(Reply{
 			ReplyID: r.ReplyID,
 			GitHash: r.GitHash,

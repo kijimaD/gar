@@ -266,3 +266,35 @@ Not found reply target!
 		assert.Equal(t, expect, got)
 	})
 }
+
+func TestSendReply(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	cl := NewMockclientI(ctrl)
+	buffer := bytes.Buffer{}
+	s := NewClient(cl, &buffer)
+
+	t.Run("call if valid", func(t *testing.T) {
+		cl.EXPECT().SendReply(gomock.Any()).Times(2)
+		s.Replys = []Reply{
+			{
+				IsValid: true,
+			},
+			{
+				IsValid: true,
+			},
+		}
+		s.SendReply()
+	})
+	t.Run("not call if invalid", func(t *testing.T) {
+		cl.EXPECT().SendReply(gomock.Any()).Times(0)
+		s.Replys = []Reply{
+			{
+				IsValid: false,
+			},
+			{
+				IsValid: false,
+			},
+		}
+		s.SendReply()
+	})
+}
