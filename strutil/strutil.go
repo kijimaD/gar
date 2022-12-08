@@ -16,8 +16,8 @@ func Substring(str string, start, length int) string {
 // yes/noを返す
 func YorN(b bool) string {
 	if b {
-		return "yes"
+		return "Yes"
 	} else {
-		return "no"
+		return "No"
 	}
 }

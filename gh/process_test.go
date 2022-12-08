@@ -245,9 +245,9 @@ func TestDisplay(t *testing.T) {
 +-----+-------------------+-------------------+------+
 | IDX |      COMMIT       |  LINKED COMMENT   | SEND |
 +-----+-------------------+-------------------+------+
-|  00 | 1111111 try to fi | original comment0 | no   |
-|  01 | 1122334 refactor  | original comment1 | no   |
-|  02 | 1122334 typo      | original comment2 | no   |
+|  00 | 1111111 try to fi | original comment0 | No   |
+|  01 | 1122334 refactor  | original comment1 | No   |
+|  02 | 1122334 typo      | original comment2 | No   |
 +-----+-------------------+-------------------+------+
 `
 		assert.Equal(t, expect, got)

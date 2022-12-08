@@ -134,14 +134,22 @@ func (c *CallClient) Display() {
 		data := [][]string{}
 
 		for i, r := range c.Replys {
+
+			idx := fmt.Sprintf("%02d", i)
+			hash := r.GitHash[0:7]
+			commitMsg := strutil.Substring(r.CommitMsg, 0, 9)
+			linkedComment := strutil.Substring(r.OriginalComment, 0, 17)
+			isSend := strutil.YorN(r.IsValid)
+
 			data = append(data, []string{
-				fmt.Sprintf("%02d", i),
+				idx,
 				fmt.Sprintf(
 					"%s %s",
-					r.GitHash[0:7],
-					strutil.Substring(r.CommitMsg, 0, 9)),
-				strutil.Substring(r.OriginalComment, 0, 17),
-				strutil.YorN(r.IsValid),
+					hash,
+					commitMsg,
+				),
+				linkedComment,
+				isSend,
 			})
 		}
 
