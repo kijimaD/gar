@@ -49,10 +49,6 @@ func (c *CallClient) ParseCommit() {
 			panic(err)
 		}
 
-		if id == -1 {
-			continue
-		}
-
 		reply := Reply{
 			ReplyID:   id,
 			GitHash:   *commit.SHA,
@@ -87,6 +83,10 @@ func (c *CallClient) parseMsg(s string) (int64, error) {
 
 func (c *CallClient) FetchCommentById() {
 	for i, r := range c.Replys {
+		if r.ReplyID == -1 {
+			continue
+		}
+
 		comment := c.API.GetCommentByID(r.ReplyID)
 
 		c.Replys[i].OriginalComment = *comment.Body

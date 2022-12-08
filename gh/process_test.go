@@ -19,7 +19,7 @@ func TestParseCommit(t *testing.T) {
 		Number: 1,
 	})
 
-	message0 := `this is commit message
+	message0 := `contain review comment URL
 
 https://github.com/kijimaD/gar/pull/1#discussion_r1037682054`
 	sha0 := "369a79d9028e378b2f4ad3e566df061583656617"
@@ -31,7 +31,7 @@ https://github.com/kijimaD/gar/pull/1#discussion_r1037682054`
 		SHA:    &sha0,
 	}
 
-	message1 := "not contain reply URL"
+	message1 := "not contain review comment URL"
 	sha1 := "369a79d9028e378b2f4ad3e566df061583656617"
 	commit1 := github.Commit{
 		Message: &message1,
@@ -52,6 +52,11 @@ https://github.com/kijimaD/gar/pull/1#discussion_r1037682054`
 			ReplyID:   int64(1037682054),
 			GitHash:   sha0,
 			CommitMsg: message0,
+		},
+		{
+			ReplyID:   int64(-1),
+			GitHash:   sha1,
+			CommitMsg: message1,
 		},
 	}
 
