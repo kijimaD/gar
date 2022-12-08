@@ -23,7 +23,7 @@ var (
 )
 
 func init() {
-	flag.BoolVar(&f, "false", false, "send reply")
+	flag.BoolVar(&f, "force", false, "send reply")
 }
 
 func New(stdout io.Writer) *CLI {

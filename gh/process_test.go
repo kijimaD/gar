@@ -160,6 +160,56 @@ func TestFetchPRComment(t *testing.T) {
 	assert.Equal(t, "comment0 comment1", s.PRComment)
 }
 
+func TestValidate(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	cl := NewMockclientI(ctrl)
+
+	buffer := bytes.Buffer{}
+	s := NewClient(cl, &buffer)
+
+	t.Run("original comment check", func(t *testing.T) {
+		s.PRComment = ""
+		s.Replys = []Reply{
+			{
+				OriginalComment: "comment",
+				GitHash:         "111111",
+			},
+			{
+				OriginalComment: "",
+				GitHash:         "222222",
+			},
+		}
+
+		s.Validate()
+
+		assert.Equal(t, true, s.Replys[0].IsValid)
+		assert.Equal(t, false, s.Replys[1].IsValid)
+	})
+	t.Run("duplicate comment check", func(t *testing.T) {
+		s.PRComment = "111111 222222"
+		s.Replys = []Reply{
+			{
+				OriginalComment: "comment",
+				GitHash:         "111111",
+			},
+			{
+				OriginalComment: "comment",
+				GitHash:         "222222",
+			},
+			{
+				OriginalComment: "comment",
+				GitHash:         "333333",
+			},
+		}
+
+		s.Validate()
+
+		assert.Equal(t, false, s.Replys[0].IsValid)
+		assert.Equal(t, false, s.Replys[1].IsValid)
+		assert.Equal(t, true, s.Replys[2].IsValid)
+	})
+}
+
 func TestDisplay(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	cl := NewMockclientI(ctrl)
@@ -195,9 +245,9 @@ func TestDisplay(t *testing.T) {
 +-----+-------------------+-------------------+------+
 | IDX |      COMMIT       |  LINKED COMMENT   | SEND |
 +-----+-------------------+-------------------+------+
-|  00 | 1111111 try to fi | original comment0 | yes  |
-|  01 | 1122334 refactor  | original comment1 | yes  |
-|  02 | 1122334 typo      | original comment2 | yes  |
+|  00 | 1111111 try to fi | original comment0 | no   |
+|  01 | 1122334 refactor  | original comment1 | no   |
+|  02 | 1122334 typo      | original comment2 | no   |
 +-----+-------------------+-------------------+------+
 `
 		assert.Equal(t, expect, got)

@@ -32,7 +32,7 @@ type Reply struct {
 	GitHash         string
 	CommitMsg       string
 	OriginalComment string
-	Valid           bool
+	IsValid         bool
 }
 
 func (c *CallClient) GetCommits() {
@@ -103,6 +103,28 @@ func (c *CallClient) FetchPRComment() {
 	c.PRComment = strings.Join(commentsStr, " ")
 }
 
+func (c *CallClient) Validate() {
+	for i, r := range c.Replys {
+		// 返信先があるかどうか
+		valid1 := false
+		if r.OriginalComment == "" {
+			valid1 = false
+		} else {
+			valid1 = true
+		}
+
+		// 重複してるかどうか
+		valid2 := false
+		if strings.Contains(c.PRComment, r.GitHash) {
+			valid2 = false
+		} else {
+			valid2 = true
+		}
+
+		c.Replys[i].IsValid = valid1 && valid2
+	}
+}
+
 func (c *CallClient) Display() {
 	fmt.Fprintln(c.Writer, "The execution of this command will result in the following.")
 
@@ -119,7 +141,7 @@ func (c *CallClient) Display() {
 					r.GitHash[0:7],
 					strutil.Substring(r.CommitMsg, 0, 9)),
 				strutil.Substring(r.OriginalComment, 0, 17),
-				"yes",
+				strutil.YorN(r.IsValid),
 			})
 		}
 

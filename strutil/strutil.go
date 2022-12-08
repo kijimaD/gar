@@ -12,3 +12,12 @@ func Substring(str string, start, length int) string {
 		return string(r[start : start+length])
 	}
 }
+
+// yes/noを返す
+func YorN(b bool) string {
+	if b {
+		return "yes"
+	} else {
+		return "no"
+	}
+}
