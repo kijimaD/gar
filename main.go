@@ -1,8 +1,9 @@
 package main
 
 import (
-	"gar/cmd"
 	"os"
+
+	"github.com/kijimaD/gar/cmd"
 )
 
 func main() {

@@ -3,9 +3,11 @@ package cmd
 import (
 	"errors"
 	"flag"
-	"gar/gh"
 	"io"
 	"strconv"
+
+	"github.com/kijimaD/gar/gh"
+	"github.com/kijimaD/gar/strutil"
 )
 
 type CLI struct {
@@ -55,6 +57,7 @@ func (cli *CLI) Run(args []string) error {
 	c.FetchCommentById()
 	c.FetchPRComment()
 	c.Display()
+	strutil.Ask()
 	if f {
 		c.SendReply()
 	}

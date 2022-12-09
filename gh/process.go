@@ -2,11 +2,12 @@ package gh
 
 import (
 	"fmt"
-	"gar/strutil"
 	"io"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/kijimaD/gar/strutil"
 
 	"github.com/google/go-github/v48/github"
 	"github.com/olekukonko/tablewriter"
