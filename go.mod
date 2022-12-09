@@ -1,4 +1,4 @@
-module gar
+module github.com/kijimaD/gar
 
 go 1.19
 
