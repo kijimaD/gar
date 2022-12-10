@@ -14,7 +14,7 @@ func TestExecute(t *testing.T) {
 
 		ctrl := gomock.NewController(t)
 		cl := NewMockRunner(ctrl)
-		cl.EXPECT().Run().Times(1).Return(0, "yes", nil)
+		cl.EXPECT().Run().Times(0).Return(0, "yes", nil)
 
 		c := New(&buffer, cl)
 		err := c.Execute([]string{"any", "1"})
