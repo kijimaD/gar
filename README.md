@@ -29,8 +29,21 @@ git config --global github.token "....."
 3. `git push`
 4. Run gar on working directory. Show dry run result and yes/no prompt.
   + e.g. `gar 1` (1 is PR number)
+```
+$ gar 1
++-----+-------------------+----------------+------+
+| IDX |      COMMIT       | LINKED COMMENT | SEND |
++-----+-------------------+----------------+------+
+|  00 | 6eed27d test: thi |                | No   |
+|  01 | 369a79d feat: thi | this is review | Yes  |
++-----+-------------------+----------------+------+
+? Send reply?[yes/no]: 
+  ▸ yes
+    no
+```
+5. Answer prompt and send reply
+6. Check GitHub
   + <img src="https://user-images.githubusercontent.com/11595790/205493043-97d7b855-94fb-487e-b5e9-be9039d3918c.png" width="40%">
-5. Answer prompt send and reply or interruption
 
 ## Development
 
