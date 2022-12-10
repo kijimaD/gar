@@ -286,7 +286,10 @@ func TestSendReply(t *testing.T) {
 				IsValid: true,
 			},
 		}
-		s.SendReply()
+		err := s.SendReply()
+		if err != nil {
+			t.Error(err)
+		}
 	})
 	t.Run("not call if invalid", func(t *testing.T) {
 		cl.EXPECT().SendReply(gomock.Any()).Times(0)
@@ -298,6 +301,9 @@ func TestSendReply(t *testing.T) {
 				IsValid: false,
 			},
 		}
-		s.SendReply()
+		err := s.SendReply()
+		if err != nil {
+			t.Error(err)
+		}
 	})
 }
