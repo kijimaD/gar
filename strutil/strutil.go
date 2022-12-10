@@ -29,8 +29,9 @@ func YorN(b bool) string {
 // プロンプトを取得する
 func GetPrompt() *promptui.Select {
 	prompt := promptui.Select{
-		Label: "Send reply[yes/no]",
-		Items: []string{"yes", "no"},
+		Label:    "Send reply?[yes/no]",
+		Items:    []string{"yes", "no"},
+		HideHelp: true,
 	}
 	return &prompt
 }

@@ -246,8 +246,7 @@ func TestDisplay(t *testing.T) {
 		s.Display()
 
 		got := buffer.String()
-		expect := `The execution of this command will result in the following.
-+-----+-------------------+-------------------+------+
+		expect := `+-----+-------------------+-------------------+------+
 | IDX |      COMMIT       |  LINKED COMMENT   | SEND |
 +-----+-------------------+-------------------+------+
 |  00 | 1111111 try to fi | original comment0 | No   |
@@ -265,8 +264,7 @@ func TestDisplay(t *testing.T) {
 		s.Display()
 
 		got := buffer.String()
-		expect := `The execution of this command will result in the following.
-Not found reply target!
+		expect := `Not found reply target!
 `
 		assert.Equal(t, expect, got)
 	})

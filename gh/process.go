@@ -127,8 +127,6 @@ func (c *CallClient) Validate() {
 }
 
 func (c *CallClient) Display() {
-	fmt.Fprintln(c.Writer, "The execution of this command will result in the following.")
-
 	if len(c.Replys) == 0 {
 		fmt.Fprintf(c.Writer, "Not found reply target!\n")
 	} else {
