@@ -1,5 +1,9 @@
 package strutil
 
+import (
+	"github.com/manifoldco/promptui"
+)
+
 // マルチバイト文字列を含む可能性のある文字列を長さ分切り取る
 func Substring(str string, start, length int) string {
 	if start < 0 || length <= 0 {
@@ -20,4 +24,13 @@ func YorN(b bool) string {
 	} else {
 		return "No"
 	}
+}
+
+// プロンプトを取得する
+func GetPrompt() *promptui.Select {
+	prompt := promptui.Select{
+		Label: "Send reply[yes/no]",
+		Items: []string{"yes", "no"},
+	}
+	return &prompt
 }

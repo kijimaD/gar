@@ -1,3 +1,5 @@
+//go:generate mockgen -source=cmd.go -destination=cmd_mock.go -package=cmd
+
 package cmd
 
 import (
@@ -11,8 +13,11 @@ import (
 
 type CLI struct {
 	Stdout io.Writer
-	// Stderr io.Writer
-	// Stdin  io.Reader
+	Runner Runner
+}
+
+type Runner interface {
+	Run() (int, string, error)
 }
 
 var (
@@ -27,9 +32,10 @@ func init() {
 	flag.BoolVar(&f, "force", false, "send reply")
 }
 
-func New(stdout io.Writer) *CLI {
+func New(stdout io.Writer, runner Runner) *CLI {
 	return &CLI{
 		Stdout: stdout,
+		Runner: runner,
 	}
 }
 
@@ -56,7 +62,13 @@ func (cli *CLI) Execute(args []string) error {
 	c.FetchCommentById()
 	c.FetchPRComment()
 	c.Display()
-	if f {
+
+	_, confirm, err := cli.Runner.Run()
+	if err != nil {
+		panic(err)
+	}
+
+	if confirm == "yes" || f {
 		c.SendReply()
 	}
 
