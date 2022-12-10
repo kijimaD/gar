@@ -135,7 +135,6 @@ func (c *CallClient) Display() {
 		data := [][]string{}
 
 		for i, r := range c.Replys {
-
 			idx := fmt.Sprintf("%02d", i)
 			hash := r.GitHash[0:7]
 			commitMsg := strutil.Substring(r.CommitMsg, 0, 9)

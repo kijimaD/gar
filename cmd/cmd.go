@@ -33,7 +33,7 @@ func New(stdout io.Writer) *CLI {
 	}
 }
 
-func (cli *CLI) Run(args []string) error {
+func (cli *CLI) Execute(args []string) error {
 	flag.Parse()
 
 	if len(args) <= 1 {

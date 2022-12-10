@@ -7,11 +7,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestRun(t *testing.T) {
+func TestExecute(t *testing.T) {
 	t.Run("valid PR number arg", func(t *testing.T) {
 		buffer := bytes.Buffer{}
 		c := New(&buffer)
-		err := c.Run([]string{"any", "1"})
+		err := c.Execute([]string{"any", "1"})
 
 		if err != nil {
 			t.Error(err)
@@ -20,7 +20,7 @@ func TestRun(t *testing.T) {
 	t.Run("not exist PR number arg", func(t *testing.T) {
 		buffer := bytes.Buffer{}
 		c := New(&buffer)
-		err := c.Run([]string{"any"})
+		err := c.Execute([]string{"any"})
 
 		if err == nil {
 			t.Error("expect: fail")
@@ -30,7 +30,7 @@ func TestRun(t *testing.T) {
 	t.Run("invalid PR number arg", func(t *testing.T) {
 		buffer := bytes.Buffer{}
 		c := New(&buffer)
-		err := c.Run([]string{"any", "あ"})
+		err := c.Execute([]string{"any", "あ"})
 
 		if err == nil {
 			t.Error("expect: fail")

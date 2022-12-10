@@ -8,7 +8,7 @@ import (
 
 func main() {
 	c := cmd.New(os.Stdout)
-	err := c.Run(os.Args)
+	err := c.Execute(os.Args)
 
 	if err != nil {
 		panic(err)
