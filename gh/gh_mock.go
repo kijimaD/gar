@@ -91,9 +91,11 @@ func (mr *MockclientIMockRecorder) PRCommits() *gomock.Call {
 }
 
 // SendReply mocks base method.
-func (m *MockclientI) SendReply(arg0 Reply) {
+func (m *MockclientI) SendReply(arg0 Reply) error {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SendReply", arg0)
+	ret := m.ctrl.Call(m, "SendReply", arg0)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
 // SendReply indicates an expected call of SendReply.

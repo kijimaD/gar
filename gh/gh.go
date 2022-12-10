@@ -19,7 +19,7 @@ var (
 )
 
 type clientI interface {
-	SendReply(Reply)
+	SendReply(Reply) error
 	PRCommits() []*github.RepositoryCommit
 	GetPR() PR
 	GetCommentByID(commentID int64) *github.PullRequestComment
@@ -83,14 +83,16 @@ func getGitInfo() (*PR, error) {
 	}, nil
 }
 
-func (gh *GitHub) SendReply(r Reply) {
+func (gh *GitHub) SendReply(r Reply) error {
 	ctx := context.Background()
 	msg := fmt.Sprintf("check 👉 %s", r.GitHash)
 	_, _, err := gh.Client.PullRequests.CreateCommentInReplyTo(ctx, gh.PR.User, gh.PR.Repo, gh.PR.Number, msg, r.ReplyID)
 
 	if err != nil {
-		panic(err)
+		return err
 	}
+
+	return nil
 }
 
 func (gh *GitHub) PRCommits() []*github.RepositoryCommit {

@@ -70,7 +70,10 @@ func (cli *CLI) Execute(args []string) error {
 	}
 
 	if confirm == "yes" || f {
-		c.SendReply()
+		err := c.SendReply()
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

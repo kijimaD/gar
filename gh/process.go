@@ -160,15 +160,21 @@ func (c *CallClient) Display() {
 	}
 }
 
-func (c *CallClient) SendReply() {
+func (c *CallClient) SendReply() error {
 	for _, r := range c.Replys {
 		if !r.IsValid {
 			continue
 		}
 
-		c.API.SendReply(Reply{
+		err := c.API.SendReply(Reply{
 			ReplyID: r.ReplyID,
 			GitHash: r.GitHash,
 		})
+
+		if err != nil {
+			return err
+		}
 	}
+
+	return nil
 }
