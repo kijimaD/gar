@@ -1,6 +1,9 @@
 ────● █▀▀ ▄▀█ █▀█ <br>
 ●──── █▄█ █▀█ █▀▄ is easy review reply tool.
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/kijimaD/gar.svg)](https://pkg.go.dev/github.com/kijimaD/gar)
+[![⚗️Check](https://github.com/kijimaD/gar/actions/workflows/check.yml/badge.svg)](https://github.com/kijimaD/gar/actions/workflows/check.yml)
+
 <img src="https://user-images.githubusercontent.com/11595790/205955931-31b88633-e3ba-4aa3-96f1-660c41c114ee.png" width="30%" align=right>
 
 ## Install
