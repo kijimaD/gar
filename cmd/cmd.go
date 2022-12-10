@@ -5,6 +5,7 @@ package cmd
 import (
 	"errors"
 	"flag"
+	"fmt"
 	"io"
 	"strconv"
 
@@ -56,13 +57,20 @@ func (cli *CLI) Execute(args []string) error {
 		panic(err)
 	}
 
-	c := gh.NewClient(g, cli.Stdout)
+	stdout := cli.Stdout
+
+	c := gh.NewClient(g, stdout)
 	c.GetCommits()
 	c.ParseCommit()
 	c.FetchCommentById()
 	c.FetchPRComment()
 	c.Validate()
 	c.Display()
+
+	if c.ValidCount() == 0 {
+		fmt.Fprintf(stdout, "Not found send target!\n")
+		return nil
+	}
 
 	_, confirm, err := cli.Runner.Run()
 	if err != nil {

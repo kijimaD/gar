@@ -264,7 +264,7 @@ func TestDisplay(t *testing.T) {
 		s.Display()
 
 		got := buffer.String()
-		expect := `Not found reply target!
+		expect := `Not found commit!
 `
 		assert.Equal(t, expect, got)
 	})

@@ -128,7 +128,7 @@ func (c *CallClient) Validate() {
 
 func (c *CallClient) Display() {
 	if len(c.Replys) == 0 {
-		fmt.Fprintf(c.Writer, "Not found reply target!\n")
+		fmt.Fprintf(c.Writer, "Not found commit!\n")
 	} else {
 		data := [][]string{}
 
@@ -177,4 +177,15 @@ func (c *CallClient) SendReply() error {
 	}
 
 	return nil
+}
+
+func (c *CallClient) ValidCount() int {
+	var count int
+	for _, r := range c.Replys {
+		if r.IsValid {
+			count += 1
+		}
+	}
+
+	return count
 }

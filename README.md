@@ -37,9 +37,3 @@ git config --global github.token "....."
 ```shell
 make help
 ```
-
-## TODO
-
-- dry run
-- check duplicate
-- pretty UI
