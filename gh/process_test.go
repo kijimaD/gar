@@ -191,7 +191,7 @@ func TestValidate(t *testing.T) {
 		assert.Equal(t, false, s.Replys[1].IsValid)
 	})
 	t.Run("duplicate comment check", func(t *testing.T) {
-		s.PRComment = "111111 222222"
+		s.PRComment = "check 111111 check 222222"
 		s.Replys = []Reply{
 			{
 				OriginalComment: "comment",

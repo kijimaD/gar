@@ -61,6 +61,7 @@ func (cli *CLI) Execute(args []string) error {
 	c.ParseCommit()
 	c.FetchCommentById()
 	c.FetchPRComment()
+	c.Validate()
 	c.Display()
 
 	_, confirm, err := cli.Runner.Run()
